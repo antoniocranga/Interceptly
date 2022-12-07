@@ -6,16 +6,16 @@ import Button from '@mui/material/Button';
 import { Link } from '@mui/material';
 
 export default function About() {
-  return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Next.js example
-        </Typography>
-        <Button variant="contained" component={Link} noLinkStyle href="/">
-          Go to the main page
-        </Button>
-      </Box>
-    </Container>
-  );
+    return (
+        <Container maxWidth="sm">
+            <Box sx={{ my: 4 }}>
+                <Typography variant="h4" component="h1" gutterBottom>
+                    Next.js example
+                </Typography>
+                <Button variant="contained" component={Link} noLinkStyle href="/">
+                    Go to the main page
+                </Button>
+            </Box>
+        </Container>
+    );
 }

@@ -57,19 +57,22 @@ export default function Login() {
                                 Don't have an account?
                             </Link>
                         </Stack>
-                        <Typography variant='caption' color={grey[500]}  sx={{
-                            mt: '0.5rem'
-                        }}>Enter your credentials to access the dashboard</Typography>
-                        <Typography variant='body2' sx={{mt: '1rem'}}>Email address*</Typography>
-                        <TextField
-                            disabled={isLoading}
-                            fullWidth
-                            required
-                            id="email"
-                            size="small"
-                            type="email"
-                        ></TextField>
-                        <Typography variant='body2' sx={{mt: '1rem'}}>Password*</Typography>
+                        <Typography
+                            variant="caption"
+                            color={grey[500]}
+                            sx={{
+                                mt: '0.5rem'
+                            }}
+                        >
+                            Enter your credentials to access the dashboard
+                        </Typography>
+                        <Typography variant="body2" sx={{ mt: '1rem' }}>
+                            Email address*
+                        </Typography>
+                        <TextField disabled={isLoading} fullWidth required id="email" size="small" type="email"></TextField>
+                        <Typography variant="body2" sx={{ mt: '1rem' }}>
+                            Password*
+                        </Typography>
                         <TextField
                             disabled={isLoading}
                             fullWidth
@@ -80,18 +83,20 @@ export default function Login() {
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
-                                        <IconButton 
-                                        disabled={isLoading}
-                                        onClick={handlePasswordClick} edge="end">
+                                        <IconButton disabled={isLoading} onClick={handlePasswordClick} edge="end">
                                             {isObscure ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
                                         </IconButton>
                                     </InputAdornment>
                                 )
                             }}
                         ></TextField>
-                        <Grid container justifyContent="flex-end" sx={{
-                            mt: '1rem'
-                        }}>
+                        <Grid
+                            container
+                            justifyContent="flex-end"
+                            sx={{
+                                mt: '1rem'
+                            }}
+                        >
                             <Link
                                 href="/forgot-password"
                                 style={{

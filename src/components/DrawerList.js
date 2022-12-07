@@ -19,36 +19,30 @@ import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import Collapse from '@mui/material/Collapse';
 import { useRouter } from 'next/router';
+import theme from '../theme';
 
 export default function DrawerList({ isDrawerExpanded }) {
     const router = useRouter();
+    const paths = router.asPath.split('/');
+    const projectId = paths[2];
+    const activeScreen = paths[paths.length - 1];
     const menuItems = [
         {
             name: 'Overview',
-            icon: HomeOutlined,
-            path: '/dashboard'
-        },
-        {
-            name: 'Projects',
             icon: FolderCopyOutlined,
-            path: '/dashboard/projects'
+            path: `/dashboard/${projectId}`
         },
         {
             name: 'Issues',
             icon: BugReportOutlined,
-            path: '/dashboard/issues'
+            path: `/dashboard/${projectId}/issues`
         },
         {
             name: 'Statistics',
             icon: AnalyticsOutlined,
-            path: '/dashboard/statistics'
+            path: `/dashboard/${projectId}/statistics`
         }
     ];
-    // const [open, setOpen] = React.useState(true);
-
-    // const handleClick = () => {
-    //     setOpen(!open);
-    // };
     const createHandleMenuClick = (menuItem) => {
         return () => {
             router.push(menuItem);
@@ -67,32 +61,24 @@ export default function DrawerList({ isDrawerExpanded }) {
                 component="nav"
                 aria-labelledby="nested-list-subheader"
             >
-                {/* <ListItemButton onClick={handleClick}>
-                    <ListItemIcon>
-                        <AnalyticsOutlined />
-                    </ListItemIcon>
-                    <ListItemText primary="Statistics" />
-                    {open ? <ExpandLessOutlined /> : <ExpandMoreOutlined />}
-                </ListItemButton> */}
-                {/* <Collapse in={open} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 8 }}>
-                            <ListItemIcon>
-                                <TimelineOutlined />
-                            </ListItemIcon>
-                            <ListItemText primary="Timeline" />
-                        </ListItemButton>
-                    </List>
-                </Collapse> */}
                 {menuItems.map((item) => (
-                    <Tooltip title={!isDrawerExpanded ? item.name : null}>
-                        <ListItemButton onClick={createHandleMenuClick(item.path)}>
-                            <ListItemIcon>{<item.icon />}</ListItemIcon>
+                    <Tooltip title={!isDrawerExpanded ? item.name : null} arrow placement="right">
+                        <ListItemButton
+                            sx={{
+                                margin: isDrawerExpanded ? '0px 8px 6px 8px' : null,
+                                borderRadius: isDrawerExpanded ? '8px' : null,
+                                color: item.path.split('/').slice(-1)[0] == activeScreen ? theme.palette.primary.main : null
+                            }}
+                            selected={item.path.split('/').slice(-1)[0] == activeScreen}
+                            onClick={createHandleMenuClick(item.path)}
+                        >
+                            <ListItemIcon>
+                                {<item.icon color={item.path.split('/').slice(-1)[0] == activeScreen ? 'primary' : 'undefined'} />}
+                            </ListItemIcon>
                             {isDrawerExpanded ? <ListItemText primary={item.name} /> : <></>}
                         </ListItemButton>
                     </Tooltip>
                 ))}
-                
             </List>
         </Stack>
     );

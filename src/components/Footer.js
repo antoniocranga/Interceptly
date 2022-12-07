@@ -27,7 +27,8 @@ export default function StickyFooter() {
                 py: 3,
                 px: 2,
                 mt: 'auto',
-                backgroundColor: (theme) => (theme.palette.mode === 'light' ? theme.palette.background.default : theme.palette.background.dark),
+                backgroundColor: (theme) =>
+                    theme.palette.mode === 'light' ? theme.palette.background.default : theme.palette.background.dark
             }}
         >
             <Container maxWidth="sm">

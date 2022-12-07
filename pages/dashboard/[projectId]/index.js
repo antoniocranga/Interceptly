@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { Container } from "@mui/system";
 
 
-export default function Projects(){
+export default function Project(){
 
 const long_text =`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel enim id risus rutrum pellentesque eget et turpis. Nam ultricies, lacus vel porta mollis, libero dolor tempor lectus, maximus consequat nibh magna et arcu. Donec erat eros, hendrerit eget lacinia sed, consequat non odio. In lectus lectus, mollis sed arcu id, vulputate euismod tellus. Mauris luctus nisl lorem. Morbi eget neque fermentum, imperdiet est vitae, gravida ligula. Sed sodales placerat sem id fermentum. Pellentesque consectetur mattis arcu imperdiet mattis. Integer maximus a velit et dictum. Sed vitae sapien elit. Fusce ex augue, rhoncus sit amet venenatis in, rhoncus non nisl. Phasellus sed maximus diam. Praesent magna lectus, commodo sed lectus rutrum, elementum iaculis orci.
 

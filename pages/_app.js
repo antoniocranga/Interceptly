@@ -16,7 +16,6 @@ const clientSideEmotionCache = createEmotionCache();
 export default function MyApp(props) {
     const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
     const router = useRouter();
-    console.log(router.pathname);
     return (
         <CacheProvider value={emotionCache}>
             <Head>
@@ -25,16 +24,10 @@ export default function MyApp(props) {
             <ThemeProvider theme={theme}>
                 {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                 <CssBaseline />
-                <MainLayout type={router.pathname.startsWith('/dashboard') ? 'dashboard' : 'website'}>
+                <MainLayout type={router.pathname.startsWith('/dashboard/') ? 'dashboard' : 'website'}>
                     <Component {...pageProps} />
                 </MainLayout>
             </ThemeProvider>
         </CacheProvider>
     );
 }
-
-MyApp.propTypes = {
-    Component: PropTypes.elementType.isRequired,
-    emotionCache: PropTypes.object,
-    pageProps: PropTypes.object.isRequired
-};

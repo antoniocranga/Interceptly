@@ -13,90 +13,126 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Logo from '../branding/Logo';
 import Link from 'next/link';
-import UnstyledMenuIntroduction from './UnstyledMenu';
+import StyledMenu from './StyledMenu';
 import StickyFooter from './Footer';
-const pages = [
-    {
-        name: 'Home',
-        path: '/'
-    },
-    {
-        name: 'Documentation',
-        path: '/documentation'
-    },
-    {
-        name: 'About',
-        path: '/about'
-    }
-];
-const settings = [
-    {
-        name: 'Create an account',
-        path: '/signup'
-    },
-    {
-        name: 'Dashboard',
-        path: '/dashboard'
-    }
-];
+import { useRouter } from 'next/router';
 
-export default function WebsiteNavBar({children}) {
+export default function WebsiteNavBar({ children }) {
+    const pages = [
+        {
+            name: 'Home',
+            path: '/'
+        },
+        {
+            name: 'Documentation',
+            path: '/documentation'
+        },
+        {
+            name: 'About',
+            path: '/about'
+        }
+    ];
+    const settings = [
+        {
+            name: 'Dashboard',
+            path: '/dashboard'
+        },
+        {
+            name: 'Account',
+            path: '/account'
+        }
+    ];
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const isOpen = Boolean(anchorEl);
+    const router = useRouter();
+    const handleButtonClick = (event) => {
+        if (isOpen) {
+            setAnchorEl(null);
+        } else {
+            setAnchorEl(event.currentTarget);
+        }
+    };
+
+    const close = () => {
+        setAnchorEl(null);
+    };
+
+    const createHandleMenuClick = (menuItem) => {
+        return () => {
+            close();
+            router.push(menuItem);
+        };
+    };
     return (
         <div>
             <AppBar
-            position="sticky"
-            color="transparent"
-            elevation={0}
-            sx={{
-                borderBottom: 1,
-                borderColor: 'grey.300',
-                backdropFilter: 'blur(20px)'
-            }}
-        >
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    <Logo
-                        sx={{
-                            display: { xs: 'none', md: 'flex' }
-                        }}
-                    />
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <UnstyledMenuIntroduction pages={pages} />
-                    </Box>
-                    <Logo
-                        sx={{
-                            flexGrow: 1,
-                            display: { xs: 'flex', md: 'none' }
-                        }}
-                    />
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page.name}
-                                variant="plain"
-                                component={Link}
-                                href={page.path}
-                                sx={{
-                                    ml: '0.5rem'
-                                }}
+                position="sticky"
+                color="transparent"
+                elevation={0}
+                sx={{
+                    borderBottom: 1,
+                    borderColor: 'grey.300',
+                    backdropFilter: 'blur(20px)'
+                }}
+            >
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <Logo
+                            sx={{
+                                display: { xs: 'none', md: 'flex' }
+                            }}
+                        />
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                            <StyledMenu pages={pages} />
+                        </Box>
+                        <Logo
+                            sx={{
+                                flexGrow: 1,
+                                display: { xs: 'flex', md: 'none' }
+                            }}
+                        />
+                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                            {pages.map((page) => (
+                                <Button
+                                    key={page.name}
+                                    variant="plain"
+                                    component={Link}
+                                    href={page.path}
+                                    sx={{
+                                        ml: '0.5rem'
+                                    }}
+                                >
+                                    {page.name}
+                                </Button>
+                            ))}
+                        </Box>
+                        <Box sx={{ flexGrow: 0 }}>
+                            <IconButton
+                                onClick={handleButtonClick}
+                                aria-controls={isOpen ? 'simple-menu' : undefined}
+                                aria-expanded={isOpen || undefined}
+                                aria-haspopup="menu"
                             >
-                                {page.name}
-                            </Button>
-                        ))}
-                    </Box>
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Go to dashboard">
-                            <IconButton component={Link} href={'/dashboard'} sx={{ p: 0 }}>
-                                <Avatar alt="U" src="/static/images/avatar/2.jpg" />
+                                <Avatar alt="U" />
                             </IconButton>
-                        </Tooltip>
-                    </Box>
-                </Toolbar>
-            </Container>
-        </AppBar>
-        {children}
-
+                            <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
+                                {settings.map((setting, index) => (
+                                    <MenuItem
+                                        key={setting.name}
+                                        onClick={createHandleMenuClick(setting.path)}
+                                        sx={{
+                                            mb: index < settings.length - 1 ? '5px' : 0
+                                        }}
+                                    >
+                                        {setting.name}
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                        </Box>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+            {children}
         </div>
-        
     );
 }

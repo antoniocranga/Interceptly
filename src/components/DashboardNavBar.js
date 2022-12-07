@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Logo from '../branding/Logo';
 import Link from 'next/link';
-import UnstyledMenuIntroduction from './UnstyledMenu';
+import StyledMenu from './StyledMenu';
 import { Divider, Drawer, List, ListItem, ListItemButton, styled } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -23,6 +23,7 @@ import theme from '../theme';
 import StickyFooter from './Footer';
 import DrawerList from './DrawerList';
 import { grey } from '@mui/material/colors';
+import { useRouter } from 'next/router';
 
 export default function DashboardNavBar({ children }) {
     const TriggerButton = styled('button')(
@@ -56,12 +57,27 @@ export default function DashboardNavBar({ children }) {
             path: '/about'
         }
     ];
+    const drawerWidth = 220;
+    const miniDrawerWidth = 59;
+    const settings = [
+        {
+            name: 'Dashboard',
+            path: '/dashboard'
+        },
+        {
+            name: 'Account',
+            path: '/account'
+        }
+    ];
     const [isDrawerExpanded, setIsDrawerExpanded] = React.useState(true);
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const isOpen = Boolean(anchorEl);
+    const router = useRouter();
 
     const handleCloseDrawer = () => {
         setMobileOpen(!mobileOpen);
-    }
+    };
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -69,8 +85,25 @@ export default function DashboardNavBar({ children }) {
     const handleExpand = () => {
         setIsDrawerExpanded(!isDrawerExpanded);
     };
-    const drawerWidth = 220;
-    const miniDrawerWidth = 59;
+
+    const handleButtonClick = (event) => {
+        if (isOpen) {
+            setAnchorEl(null);
+        } else {
+            setAnchorEl(event.currentTarget);
+        }
+    };
+
+    const close = () => {
+        setAnchorEl(null);
+    };
+
+    const createHandleMenuClick = (menuItem) => {
+        return () => {
+            close();
+            router.push(menuItem);
+        };
+    };
     return (
         <Stack>
             <AppBar
@@ -108,7 +141,13 @@ export default function DashboardNavBar({ children }) {
                                         xs: 'block',
                                         md: 'none'
                                     },
-                                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
+                                    '& .MuiDrawer-paper': {
+                                        borderRight: '1px solid',
+                                        borderColor: grey[300],
+
+                                        boxSizing: 'border-box',
+                                        width: drawerWidth
+                                    }
                                 }}
                             >
                                 <DrawerList isDrawerExpanded={true} />
@@ -136,11 +175,27 @@ export default function DashboardNavBar({ children }) {
                             ))}
                         </Box>
                         <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Go to dashboard">
-                                <IconButton component={Link} href={'/dashboard'} sx={{ p: 0 }}>
-                                    <Avatar alt="U" src="/static/images/avatar/2.jpg" />
-                                </IconButton>
-                            </Tooltip>
+                            <IconButton
+                                onClick={handleButtonClick}
+                                aria-controls={isOpen ? 'simple-menu' : undefined}
+                                aria-expanded={isOpen || undefined}
+                                aria-haspopup="menu"
+                            >
+                                <Avatar alt="U" />
+                            </IconButton>
+                            <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
+                                {settings.map((setting, index) => (
+                                    <MenuItem
+                                        key={setting.name}
+                                        onClick={createHandleMenuClick(setting.path)}
+                                        sx={{
+                                            mb: index < settings.length - 1 ? '5px' : 0
+                                        }}
+                                    >
+                                        {setting.name}
+                                    </MenuItem>
+                                ))}
+                            </Menu>
                         </Box>
                     </Toolbar>
                 </Container>
@@ -168,8 +223,14 @@ export default function DashboardNavBar({ children }) {
                 >
                     <DrawerList isDrawerExpanded={isDrawerExpanded} />
                     <List>
-                        <Tooltip title={!isDrawerExpanded ? 'Expand' : null}>
-                            <ListItemButton onClick={handleExpand}>
+                        <Tooltip title={!isDrawerExpanded ? 'Expand' : null} arrow placement="right">
+                            <ListItemButton
+                                onClick={handleExpand}
+                                sx={{
+                                    margin: isDrawerExpanded ? '0px 8px 6px 8px' : null,
+                                    borderRadius: isDrawerExpanded ? '8px' : null
+                                }}
+                            >
                                 <ListItemIcon>{isDrawerExpanded ? <ArrowBackIosNewOutlined /> : <ArrowForwardIosOutlined />}</ListItemIcon>
                                 {isDrawerExpanded ? <ListItemText primary={isDrawerExpanded ? 'Minimize' : null} /> : <></>}
                             </ListItemButton>

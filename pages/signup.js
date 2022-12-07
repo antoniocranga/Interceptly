@@ -122,16 +122,16 @@ export default function Signup() {
                                 changePassword(e.target.value);
                             }}
                         ></TextField>
-                            <Grid container spacing={1} alignItems="center" sx={{mt: '0.1rem'}}>
-                                <Grid item>
-                                    <Box sx={{ bgcolor: level?.color, width: 80, height: 8, borderRadius: '7px' }} />
-                                </Grid>
-                                <Grid item>
-                                    <Typography variant="subtitle1" fontSize="0.75rem">
-                                        {level?.label}
-                                    </Typography>
-                                </Grid>
+                        <Grid container spacing={1} alignItems="center" sx={{ mt: '0.1rem' }}>
+                            <Grid item>
+                                <Box sx={{ bgcolor: level?.color, width: 80, height: 8, borderRadius: '7px' }} />
                             </Grid>
+                            <Grid item>
+                                <Typography variant="subtitle1" fontSize="0.75rem">
+                                    {level?.label}
+                                </Typography>
+                            </Grid>
+                        </Grid>
                         <LoadingButton
                             size="large"
                             loading={isLoading}

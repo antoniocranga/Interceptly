@@ -1,17 +1,17 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 let urls = {
     test: 'http://localhost:8080',
     development: 'http://localhost:8080',
     production: 'asdad'
-}
+};
 
 const api = Axios.create({
     baseURL: urls[process.env.NODE_ENV],
     headers: {
-        'Accept' : 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json'
     }
 });
 
-export default api
+export default api;

@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export const middleware = async (request) => {
-    if (request.nextUrl.pathname.startsWith('/dashboard')) {
-        const authCookie = request.cookies.get('token');
-        if (!authCookie) {
-            return NextResponse.redirect(new URL('/login',request.url));
-        }
-    }
+    // if (request.nextUrl.pathname.startsWith('/dashboard')) {
+    //     const authCookie = request.cookies.get('token');
+    //     if (!authCookie) {
+    //         return NextResponse.redirect(new URL('/login',request.url));
+    //     }
+    // }
 };

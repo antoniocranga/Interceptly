@@ -96,6 +96,12 @@ const theme = createTheme({
                     boxShadow: boxShadow
                 }
             }
+        },
+        pre: {
+            borderRadius: '6px',
+            border: '1px solid',
+            borderColor: grey[300],
+            background: grey[100]
         }
     },
     custom: {

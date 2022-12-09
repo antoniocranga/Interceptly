@@ -1,10 +1,10 @@
-import { Typography } from "@mui/material";
-import { Container } from "@mui/system";
+import { Grid, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
+import { Container } from '@mui/system';
+import OverviewCard from '../../../src/components/dashboard/overview/OverviewCard';
 
-
-export default function Project(){
-
-const long_text =`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel enim id risus rutrum pellentesque eget et turpis. Nam ultricies, lacus vel porta mollis, libero dolor tempor lectus, maximus consequat nibh magna et arcu. Donec erat eros, hendrerit eget lacinia sed, consequat non odio. In lectus lectus, mollis sed arcu id, vulputate euismod tellus. Mauris luctus nisl lorem. Morbi eget neque fermentum, imperdiet est vitae, gravida ligula. Sed sodales placerat sem id fermentum. Pellentesque consectetur mattis arcu imperdiet mattis. Integer maximus a velit et dictum. Sed vitae sapien elit. Fusce ex augue, rhoncus sit amet venenatis in, rhoncus non nisl. Phasellus sed maximus diam. Praesent magna lectus, commodo sed lectus rutrum, elementum iaculis orci.
+export default function Project() {
+    const long_text = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel enim id risus rutrum pellentesque eget et turpis. Nam ultricies, lacus vel porta mollis, libero dolor tempor lectus, maximus consequat nibh magna et arcu. Donec erat eros, hendrerit eget lacinia sed, consequat non odio. In lectus lectus, mollis sed arcu id, vulputate euismod tellus. Mauris luctus nisl lorem. Morbi eget neque fermentum, imperdiet est vitae, gravida ligula. Sed sodales placerat sem id fermentum. Pellentesque consectetur mattis arcu imperdiet mattis. Integer maximus a velit et dictum. Sed vitae sapien elit. Fusce ex augue, rhoncus sit amet venenatis in, rhoncus non nisl. Phasellus sed maximus diam. Praesent magna lectus, commodo sed lectus rutrum, elementum iaculis orci.
 
 Sed tincidunt imperdiet sapien eu consectetur. In viverra dolor eu tellus consequat sodales. Quisque sed turpis non sem auctor hendrerit. Donec nec blandit nibh, id suscipit augue. Duis iaculis porta molestie. Vivamus euismod elit sit amet ullamcorper rutrum. Maecenas justo dolor, consectetur eget urna at, lobortis accumsan nisi. Sed vulputate augue eu felis varius volutpat. Cras nec venenatis libero. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris et quam in elit aliquam pharetra. Cras arcu nulla, elementum nec purus quis, cursus vehicula ligula.
 
@@ -104,9 +104,47 @@ Curabitur ut nunc aliquam, pulvinar purus quis, elementum nunc. Praesent fringil
 
 Nunc non velit vulputate, pellentesque mauris vel, volutpat ipsum. Vestibulum vulputate mi sit amet vehicula facilisis. Suspendisse id diam justo. Maecenas vel viverra sapien. Cras sollicitudin eleifend tellus, nec porttitor mauris ullamcorper sit amet. Mauris dictum eleifend lorem eget elementum. Cras a dolor volutpat, ornare nisl ac, blandit nisl. Nunc scelerisque massa ac nisi molestie blandit. Sed posuere ligula quis purus faucibus malesuada. Vestibulum semper gravida commodo. Aenean consectetur purus risus, sit amet efficitur ante bibendum posuere. Ut posuere eleifend mi et imperdiet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam et justo at ligula eleifend vehicula. Ut mollis lectus vitae nunc commodo, venenatis rhoncus nulla sagittis.
 `;
+    const overviews = [
+        {
+            header: 'Requests',
+            title: '18,800',
+            subtitle: 'You made an extra 1,943 this month',
+            percentage: '59.3%',
+            isDecreasing: false
+        },
+        {
+            header: 'Issues solved',
+            title: '260',
+            subtitle: 'You made an extra 117 this month',
+            percentage: '27.4%',
+            isDecreasing: true
+        },
+        {
+            header: 'Issues remaining',
+            title: '210',
+            subtitle: '56 extra issues since last month',
+            percentage: '27.4%',
+            isDecreasing: true
+        }
+    ];
     return (
-        <Container>
-            <Typography>{long_text}</Typography>
+        <Container
+            sx={{
+                backgroundColor: grey[50],
+                py: '1rem'
+            }}
+        >
+            <Typography variant="h6" sx={{
+                fontWeight: 500,
+                mb: '1rem'
+            }}>Overview</Typography>
+            <Grid container spacing={2}>
+                {overviews.map((overview) => (
+                    <Grid item key={overview.header} xs={12} sm={6} md={4} lg={3}>
+                        <OverviewCard props={overview} />
+                    </Grid>
+                ))}
+            </Grid>
         </Container>
     );
 }

@@ -59,26 +59,26 @@ export const useAuthContextState = () => {
     const { state } = useContext(AuthContext);
     return state;
 };
-export const ProtectRoute = ({ children }) => {
-    const router = useRouter();
-    if (!router.pathname.includes('/dashboard')) {
-        return children;
-    }
-    const { isAuthenticated, isLoading } = useAuthState();
-    if (isLoading) {
-        return (
-            <Container
-                sx={{
-                    height: '100vh',
-                    width: '100vw'
-                }}
-            >
-                <CircularProgress />
-            </Container>
-        );
-    }
-    if (!isAuthenticated && router.pathname.includes('/dashboard')) {
-        router.push('/login');
-    }
-    return children;
-};
+// export const ProtectRoute = ({ children }) => {
+//     const router = useRouter();
+//     if (!router.pathname.includes('/dashboard')) {
+//         return children;
+//     }
+//     const { isAuthenticated, isLoading } = useAuthState();
+//     if (isLoading) {
+//         return (
+//             <Container
+//                 sx={{
+//                     height: '100vh',
+//                     width: '100vw'
+//                 }}
+//             >
+//                 <CircularProgress />
+//             </Container>
+//         );
+//     }
+//     if (!isAuthenticated && router.pathname.includes('/dashboard')) {
+//         router.push('/login');
+//     }
+//     return children;
+// };

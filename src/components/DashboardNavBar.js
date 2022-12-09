@@ -105,7 +105,9 @@ export default function DashboardNavBar({ children }) {
         };
     };
     return (
-        <Stack>
+        <Stack sx={{
+            backgroundColor: grey[50]
+        }}>
             <AppBar
                 position="fixed"
                 color="transparent"
@@ -241,7 +243,6 @@ export default function DashboardNavBar({ children }) {
                     component="main"
                     sx={{
                         flexGrow: 1,
-                        p: 3
                     }}
                 >
                     <Toolbar />

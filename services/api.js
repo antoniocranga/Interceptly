@@ -1,17 +1,27 @@
 import Axios from 'axios';
+import { setCookie, getCookie } from 'cookies-next';
 
-let urls = {
-    test: 'http://localhost:8080',
-    development: 'http://localhost:8080',
-    production: 'asdad'
-};
 
-const api = Axios.create({
-    baseURL: urls[process.env.NODE_ENV],
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+export default class Api {
+    constructor() {
+        this.baseUrl = process.env.ENVIRONMENT == 'test' ? process.env.BASE_URL_TEST : process.env.BASE_URL_PRODUCTION;
+        this.apiKey = null;
+        this.client = null;
+        this.apiUrl = 'localhost:8080';
     }
-});
-
-export default api;
+    
+    init = () => {
+        this.apiToken = getCookie('access_token');
+        let headers = {
+            Accept: 'application/json'
+        };
+        if (this.apiKey) {
+            headers.Authorization = `Bearer ${apiKey}`;
+        }
+        this.client = axios.create({ baseURL: this.apiUrl, timeout: 31000, headers: headers });
+        return this.client;
+    };
+    getUser = (data) => {
+        return this.init().get('/users', { params: params });
+    };
+}

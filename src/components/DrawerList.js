@@ -62,7 +62,7 @@ export default function DrawerList({ isDrawerExpanded }) {
                 aria-labelledby="nested-list-subheader"
             >
                 {menuItems.map((item) => (
-                    <Tooltip title={!isDrawerExpanded ? item.name : null} arrow placement="right">
+                    <Tooltip key={item.name} title={!isDrawerExpanded ? item.name : null} arrow placement="right">
                         <ListItemButton
                             sx={{
                                 margin: isDrawerExpanded ? '0px 8px 6px 8px' : null,

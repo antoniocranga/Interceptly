@@ -25,13 +25,11 @@ export default function StickyFooter() {
             component="footer"
             sx={{
                 py: 3,
-                px: 2,
-                mt: 'auto',
                 backgroundColor: (theme) =>
                     theme.palette.mode === 'light' ? theme.palette.background.default : theme.palette.background.dark
             }}
         >
-            <Container maxWidth="sm">
+            <Container maxWidth="md">
                 <Typography variant="body1">My sticky footer can be found here.</Typography>
                 <Copyright />
             </Container>

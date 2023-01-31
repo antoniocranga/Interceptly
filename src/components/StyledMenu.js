@@ -3,7 +3,7 @@ import { styled } from '@mui/system';
 import MenuIcon from '@mui/icons-material/Menu';
 import { grey } from '@mui/material/colors';
 import { useRouter } from 'next/router';
-import { Menu, MenuItem } from '@mui/material';
+import { Box, Menu, MenuItem } from '@mui/material';
 
 const TriggerButton = styled('button')(
     ({ theme }) => `
@@ -51,8 +51,8 @@ export default function StyledMenu({ pages }) {
             router.push(menuItem);
         };
     };
-
     return (
+
         <div>
             <TriggerButton
                 type="button"
@@ -64,17 +64,20 @@ export default function StyledMenu({ pages }) {
                 <MenuIcon />
             </TriggerButton>
             <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
-                {pages.map((page, index) => (
-                    <MenuItem
-                        key={page.name}
-                        onClick={createHandleMenuClick(page.path)}
-                        sx={{
-                            mb: index < pages.length - 1 ? '5px' : 0
-                        }}
-                    >
-                        {page.name}
-                    </MenuItem>
-                ))}
+                {pages.map((page, index) => {
+
+                    return page.name == 'space' ? <Box sx={{height: '1rem'}}/> : (
+                        <MenuItem
+                            key={page.name}
+                            onClick={createHandleMenuClick(page.path)}
+                            sx={{
+                                mb: index < pages.length - 1 ? '5px' : 0
+                            }}
+                        >
+                            {page.name}
+                        </MenuItem>
+                    )
+                })}
             </Menu>
         </div>
     );

@@ -2,41 +2,34 @@ import { Button, Divider, Grid, IconButton, InputAdornment, TextField, Typograph
 import { Box, Stack } from '@mui/system';
 import Link from 'next/link';
 import AuthCard from '../src/components/authentication/AuthCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import MeshGradient from '../src/branding/backgrounds/MeshGradient';
 import { VisibilityOffOutlined, VisibilityOutlined } from '@mui/icons-material';
 import theme from '../src/theme';
 import { grey } from '@mui/material/colors';
 import SocialAuthButton from '../src/components/buttons/SocialAuthButton';
+import { useAppContext } from '../src/utils/AppContext';
+import { useRouter } from 'next/router';
 
 export default function Login() {
-    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
-    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
     const [isObscure, setIsObscure] = useState(true);
+    const { appState, login, isLoading, isAuthenticated } = useAppContext();
     const handlePasswordClick = () => {
         setIsObscure(!isObscure);
     };
+
+    useEffect(() => {
+        console.log(isLoading,isAuthenticated,appState.user);
+        if (!isLoading && isAuthenticated) {
+            router.push("/dashboard");
+        }
+    }, [isLoading, isAuthenticated, appState]);
+
     const onSubmit = async (event) => {
         event.preventDefault();
-        setIsLoading(true);
-        const data = {
-            email: event.target.email.value,
-            password: event.target.password.value
-        };
-        const JSONdata = JSON.stringify(data);
-        await delay(5000);
-        console.log(JSONdata);
-        // const endpoint = "/"
-        // const options = {
-        //     method: 'POST',
-        //     headers: {},
-        //     body: JSONdata
-        // }
-        // const response = await fetch(endpoint, options)
-        // const result = await response.json()
-        setIsLoading(false);
+        login(event.target.email.value, event.target.password.value);
     };
     return (
         <MeshGradient>

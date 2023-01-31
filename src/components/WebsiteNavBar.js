@@ -16,6 +16,7 @@ import Link from 'next/link';
 import StyledMenu from './StyledMenu';
 import StickyFooter from './Footer';
 import { useRouter } from 'next/router';
+import { useAppContext } from '../utils/AppContext';
 
 export default function WebsiteNavBar({ children }) {
     const pages = [
@@ -40,9 +41,14 @@ export default function WebsiteNavBar({ children }) {
         {
             name: 'Account',
             path: '/account'
+        },
+        {
+            name: 'Logout',
+            path: '/logout'
         }
     ];
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const { logout, isAuthenticated } = useAppContext();
     const isOpen = Boolean(anchorEl);
     const router = useRouter();
     const handleButtonClick = (event) => {
@@ -60,7 +66,12 @@ export default function WebsiteNavBar({ children }) {
     const createHandleMenuClick = (menuItem) => {
         return () => {
             close();
-            router.push(menuItem);
+            if (menuItem == '/logout') {
+                logout();
+            }
+            else {
+                router.push(menuItem);
+            }
         };
     };
     return (
@@ -116,8 +127,8 @@ export default function WebsiteNavBar({ children }) {
                                 <Avatar alt="U" />
                             </IconButton>
                             <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
-                                {settings.map((setting, index) => (
-                                    <MenuItem
+                                {settings.map((setting, index) => {
+                                    return setting.path == '/logout' && !isAuthenticated ? <Container key="0"></Container> : <MenuItem
                                         key={setting.name}
                                         onClick={createHandleMenuClick(setting.path)}
                                         sx={{
@@ -126,7 +137,7 @@ export default function WebsiteNavBar({ children }) {
                                     >
                                         {setting.name}
                                     </MenuItem>
-                                ))}
+                                })}
                             </Menu>
                         </Box>
                     </Toolbar>

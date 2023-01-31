@@ -7,7 +7,6 @@ export default function MainLayout({ children, type }) {
     return (
         <>
             {type == 'website' ? <WebsiteNavBar>{children}</WebsiteNavBar> : <DashboardNavBar>{children}</DashboardNavBar>}
-            <StickyFooter />
         </>
     );
 }

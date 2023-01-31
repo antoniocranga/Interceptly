@@ -1,14 +1,19 @@
-import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { Card, CardContent, CardMedia, Divider, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import theme from '../../theme';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { Box } from '@mui/system';
 export default function ProjectCard({ props }) {
-    const { name, id } = props;
+    const { title, description, id, color, createdAt } = props;
     const projectPath = `/dashboard/${id}`;
     const router = useRouter();
     const handleOnClick = () => {
         router.push(projectPath);
+    };
+    const formatedDate = () => {
+        var date = new Date(createdAt);
+        return date.toUTCString();
     };
     return (
         <Card
@@ -23,17 +28,39 @@ export default function ProjectCard({ props }) {
             }}
             onClick={handleOnClick}
         >
-            <CardMedia component="img" heigth="140" image="/assets/images/1.jpg" />
             <CardContent>
-                <Typography variant="h6">{name}</Typography>
-                <Typography
-                    variant="caption"
-                    sx={{
-                        color: grey[400]
-                    }}
-                >
-                    {id}
-                </Typography>
+                <Box height={150} sx={{
+                    backgroundColor: color ? color : theme.palette.primary.main,
+                    borderRadius: "6px"
+                }} />
+                <Typography variant="h6">{title}</Typography>
+                <Typography variant="body2">{description ?? "\u00A0"}</Typography>
+                <Box sx={{
+                    display: "flex",
+                    alignItems: "center",
+                }}>
+                    <Typography
+                        variant="caption"
+                        sx={{
+                            color: grey[400]
+                        }}
+                    >
+                        {id}
+                    </Typography>
+                    <Typography sx={{
+                        color: grey[400],
+                        mx: '0.2rem'
+                    }}>•</Typography>
+                    <Typography
+                        variant="caption"
+                        sx={{
+                            color: grey[400]
+                        }}
+                    >
+                        {formatedDate()}
+                    </Typography>
+
+                </Box>
             </CardContent>
         </Card>
     );

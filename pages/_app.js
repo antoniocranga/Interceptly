@@ -6,10 +6,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
 import theme from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
-import { AuthProvider, ProtectRoute } from '../contexts/auth';
 import MainLayout from '../layouts/MainLayout';
 import { useRouter } from 'next/router';
-
+import { AppWrapper } from '../src/utils/AppContext';
+import AppLoader from '../src/utils/AppLoader';
+import { SnackbarProvider } from 'notistack';
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -24,9 +25,16 @@ export default function MyApp(props) {
             <ThemeProvider theme={theme}>
                 {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                 <CssBaseline />
-                <MainLayout type={router.pathname.startsWith('/dashboard/') ? 'dashboard' : 'website'}>
-                    <Component {...pageProps} />
-                </MainLayout>
+                <SnackbarProvider maxSnack={3}>
+                    <AppWrapper>
+                        <AppLoader>
+                            <MainLayout type={router.pathname.startsWith('/dashboard/') ? 'dashboard' : 'website'}>
+                                <Component {...pageProps} />
+                            </MainLayout>
+                        </AppLoader>
+                    </AppWrapper>
+                </SnackbarProvider>
+
             </ThemeProvider>
         </CacheProvider>
     );

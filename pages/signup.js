@@ -10,40 +10,32 @@ import theme from '../src/theme';
 import { grey } from '@mui/material/colors';
 import SocialAuthButton from '../src/components/buttons/SocialAuthButton';
 import { strengthColor, strengthIndicator } from '../src/utils/validators/password_validator';
+import { useAppContext } from '../src/utils/AppContext';
+import { useRouter } from 'next/router';
 export default function Signup() {
-    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    const router = useRouter();
     const [level, setLevel] = useState();
-    const [isLoading, setIsLoading] = useState(false);
     const [isObscure, setIsObscure] = useState(true);
+    const { isLoading, register, isAuthenticated, appState } = useAppContext();
     const changePassword = (value) => {
         const temp = strengthIndicator(value);
         setLevel(strengthColor(temp));
     };
-    useEffect(() => {
-        changePassword('');
-    }, []);
+
     const handlePasswordClick = () => {
         setIsObscure(!isObscure);
     };
+
+    useEffect(() => {
+        changePassword('');
+        if (!isLoading && isAuthenticated) {
+            router.push("/dashboard");
+        }
+    }, [isLoading, isAuthenticated, appState]);
+
     const onSubmit = async (event) => {
         event.preventDefault();
-        setIsLoading(true);
-        const data = {
-            email: event.target.email.value,
-            password: event.target.password.value
-        };
-        const JSONdata = JSON.stringify(data);
-        await delay(5000);
-        console.log(JSONdata);
-        // const endpoint = "/"
-        // const options = {
-        //     method: 'POST',
-        //     headers: {},
-        //     body: JSONdata
-        // }
-        // const response = await fetch(endpoint, options)
-        // const result = await response.json()
-        setIsLoading(false);
+        register(event.target.email.value, event.target.password.value, event.target.first_name.value, event.target.last_name.value);
     };
     return (
         <MeshGradient>

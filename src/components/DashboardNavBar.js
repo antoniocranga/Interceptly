@@ -17,36 +17,22 @@ import StyledMenu from './StyledMenu';
 import { Divider, Drawer, List, ListItem, ListItemButton, styled } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { MailIcon, InboxOutlined, ArrowBackIosNewOutlined, ArrowForwardIosOutlined } from '@mui/icons-material';
+import { MailIcon, InboxOutlined, ArrowBackIosNewOutlined, ArrowForwardIosOutlined, MailOutline, FolderCopyOutlined, ChevronRightOutlined, ChevronLeftOutlined, BugReportOutlined, AnalyticsOutlined } from '@mui/icons-material';
 import { Stack } from '@mui/system';
 import theme from '../theme';
 import StickyFooter from './Footer';
 import DrawerList from './DrawerList';
 import { grey } from '@mui/material/colors';
 import { useRouter } from 'next/router';
+import { useAppContext } from '../utils/AppContext';
+import MuiDrawer from '@mui/material/Drawer';
 
 export default function DashboardNavBar({ children }) {
-    const TriggerButton = styled('button')(
-        ({ theme }) => `
-      line-height: 0.25rem;
-      box-sizing: border-box;
-      border-radius: 12px;
-      padding: 7px;
-      background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-      border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-      color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-    
-      transition-property: all;
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-      transition-duration: 120ms;
-    
-      &:hover {
-        background: ${theme.palette.mode === 'dark' ? grey[800] : grey[50]};
-        border-color: ${theme.palette.mode === 'dark' ? grey[600] : grey[300]};
-      }
-    
-      `
-    );
+    const router = useRouter();
+    const paths = router.asPath.split('/');
+    const projectId = paths[2];
+    const activeScreen = paths[paths.length - 1];
+
     const pages = [
         {
             name: 'Documentation',
@@ -57,8 +43,7 @@ export default function DashboardNavBar({ children }) {
             path: '/about'
         }
     ];
-    const drawerWidth = 220;
-    const miniDrawerWidth = 59;
+    const drawerWidth = 180;
     const settings = [
         {
             name: 'Dashboard',
@@ -67,21 +52,63 @@ export default function DashboardNavBar({ children }) {
         {
             name: 'Account',
             path: '/account'
+        },
+        {
+            name: 'Logout',
+            path: '/logout'
         }
     ];
+    const drawerItems = [
+        {
+            name: 'Overview',
+            icon: FolderCopyOutlined,
+            path: `/dashboard/${projectId}`
+        },
+        {
+            name: 'Issues',
+            icon: BugReportOutlined,
+            path: `/dashboard/${projectId}/issues`
+        },
+        {
+            name: 'Statistics',
+            icon: AnalyticsOutlined,
+            path: `/dashboard/${projectId}/statistics`
+        },
+    ];
+    const allItems = [
+        {
+            name: 'Overview',
+            icon: FolderCopyOutlined,
+            path: `/dashboard/${projectId}`
+        },
+        {
+            name: 'Issues',
+            icon: BugReportOutlined,
+            path: `/dashboard/${projectId}/issues`
+        },
+        {
+            name: 'Statistics',
+            icon: AnalyticsOutlined,
+            path: `/dashboard/${projectId}/statistics`
+        },
+        {
+            name: 'space',
+        },
+        {
+            name: 'Documentation',
+            path: '/documentation'
+        },
+        {
+            name: 'About',
+            path: '/about'
+        }
+    ];
+
     const [isDrawerExpanded, setIsDrawerExpanded] = React.useState(true);
-    const [mobileOpen, setMobileOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const { logout, isAuthenticated } = useAppContext();
     const isOpen = Boolean(anchorEl);
-    const router = useRouter();
 
-    const handleCloseDrawer = () => {
-        setMobileOpen(!mobileOpen);
-    };
-
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
     const handleExpand = () => {
         setIsDrawerExpanded(!isDrawerExpanded);
     };
@@ -101,17 +128,74 @@ export default function DashboardNavBar({ children }) {
     const createHandleMenuClick = (menuItem) => {
         return () => {
             close();
-            router.push(menuItem);
+            if (menuItem == '/logout') {
+                logout();
+            }
+            else {
+                router.push(menuItem);
+            }
         };
     };
+
+    const handleRoute = (path) => {
+        return () => {
+            router.push(path);
+        }
+    }
+
+    const openedMixin = (theme) => ({
+        width: drawerWidth,
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        overflowX: 'hidden',
+    });
+
+    const closedMixin = (theme) => ({
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        overflowX: 'hidden',
+        width: `calc(${theme.spacing(7)} + 1px)`,
+        [theme.breakpoints.up('sm')]: {
+            width: `calc(${theme.spacing(8)} + 1px)`,
+        },
+    });
+    const DrawerHeader = styled('div')(({ theme }) => ({
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        padding: theme.spacing(0, 1),
+        // necessary for content to be below app bar
+        ...theme.mixins.toolbar,
+    }));
+    const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+        ({ theme, open }) => ({
+            width: drawerWidth,
+            flexShrink: 0,
+            whiteSpace: 'nowrap',
+            boxSizing: 'border-box',
+            ...(open && {
+                ...openedMixin(theme),
+                '& .MuiDrawer-paper': openedMixin(theme),
+            }),
+            ...(!open && {
+                ...closedMixin(theme),
+                '& .MuiDrawer-paper': closedMixin(theme),
+            }),
+        }),
+    );
     return (
-        <Stack sx={{
-            backgroundColor: grey[50]
+        <Box sx={{
+            display: "flex"
         }}>
             <AppBar
                 position="fixed"
                 color="transparent"
                 elevation={0}
+                open={isDrawerExpanded}
                 sx={{
                     borderBottom: 1,
                     borderColor: 'grey.300',
@@ -119,136 +203,151 @@ export default function DashboardNavBar({ children }) {
                     zIndex: 1201
                 }}
             >
-                <Container maxWidth="xl">
-                    <Toolbar disableGutters>
-                        <Logo
-                            sx={{
-                                display: { xs: 'none', md: 'flex' }
-                            }}
-                        />
-                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                            <TriggerButton onClick={handleDrawerToggle}>
-                                <MenuIcon />
-                            </TriggerButton>
-                            <Drawer
-                                variant="temporary"
-                                open={mobileOpen}
-                                onClick={handleCloseDrawer}
-                                onClose={handleDrawerToggle}
-                                ModalProps={{
-                                    keepMounted: true
-                                }}
+                <Toolbar>
+                    <Logo
+                        sx={{
+                            display: { xs: 'none', md: 'flex' }
+                        }}
+                    />
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                        <StyledMenu pages={allItems} />
+                    </Box>
+                    <Logo
+                        sx={{
+                            flexGrow: 1,
+                            display: { xs: 'flex', md: 'none' }
+                        }}
+                    />
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                        {pages.map((page) => (
+                            <Button
+                                key={page.name}
+                                variant="plain"
+                                component={Link}
+                                href={page.path}
                                 sx={{
-                                    display: {
-                                        xs: 'block',
-                                        md: 'none'
-                                    },
-                                    '& .MuiDrawer-paper': {
-                                        borderRight: '1px solid',
-                                        borderColor: grey[300],
-
-                                        boxSizing: 'border-box',
-                                        width: drawerWidth
-                                    }
+                                    ml: '0.5rem'
                                 }}
                             >
-                                <DrawerList isDrawerExpanded={true} />
-                            </Drawer>
-                        </Box>
-                        <Logo
-                            sx={{
-                                flexGrow: 1,
-                                display: { xs: 'flex', md: 'none' }
-                            }}
-                        />
-                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            {pages.map((page) => (
-                                <Button
-                                    key={page.name}
-                                    variant="plain"
-                                    component={Link}
-                                    href={page.path}
+                                {page.name}
+                            </Button>
+                        ))}
+                    </Box>
+                    <Box sx={{ flexGrow: 0 }}>
+                        <IconButton
+                            onClick={handleButtonClick}
+                            aria-controls={isOpen ? 'simple-menu' : undefined}
+                            aria-expanded={isOpen || undefined}
+                            aria-haspopup="menu"
+                        >
+                            <Avatar alt="U" />
+                        </IconButton>
+                        <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
+                            {settings.map((setting, index) => {
+                                return setting.path == '/logout' && !isAuthenticated ? <Container key="0"></Container> : <MenuItem
+                                    key={setting.name}
+                                    onClick={createHandleMenuClick(setting.path)}
                                     sx={{
-                                        ml: '0.5rem'
+                                        mb: index < settings.length - 1 ? '5px' : 0
                                     }}
                                 >
-                                    {page.name}
-                                </Button>
-                            ))}
-                        </Box>
-                        <Box sx={{ flexGrow: 0 }}>
-                            <IconButton
-                                onClick={handleButtonClick}
-                                aria-controls={isOpen ? 'simple-menu' : undefined}
-                                aria-expanded={isOpen || undefined}
-                                aria-haspopup="menu"
-                            >
-                                <Avatar alt="U" />
-                            </IconButton>
-                            <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
-                                {settings.map((setting, index) => (
-                                    <MenuItem
-                                        key={setting.name}
-                                        onClick={createHandleMenuClick(setting.path)}
-                                        sx={{
-                                            mb: index < settings.length - 1 ? '5px' : 0
-                                        }}
-                                    >
-                                        {setting.name}
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
-                    </Toolbar>
-                </Container>
+                                    {setting.name}
+                                </MenuItem>
+                            })}
+                        </Menu>
+                    </Box>
+                </Toolbar>
             </AppBar>
-            <Box sx={{ display: 'flex' }}>
-                <Drawer
-                    variant="permanent"
-                    sx={{
-                        display: {
-                            xs: 'none',
-                            md: 'flex'
-                        },
-                        width: isDrawerExpanded ? drawerWidth : miniDrawerWidth,
-                        flexShrink: 0,
-                        justifyContent: 'space-between',
-                        '& .MuiDrawer-paper': {
-                            borderRight: 1,
-                            borderColor: grey[300],
-                            boxSizing: 'border-box',
-                            width: isDrawerExpanded ? drawerWidth : miniDrawerWidth,
-                            display: 'flex',
-                            justifyContent: 'space-between'
-                        }
-                    }}
-                >
-                    <DrawerList isDrawerExpanded={isDrawerExpanded} />
-                    <List>
-                        <Tooltip title={!isDrawerExpanded ? 'Expand' : null} arrow placement="right">
+            <Drawer
+                variant="permanent"
+                open={isDrawerExpanded}
+                sx={{
+                    display: {
+                        xs: 'none',
+                        md: !router.pathname.includes("/create-project") ? 'flex' : 'none'
+                    },
+                    '& .MuiDrawer-paper': {
+                        borderRight: 1,
+                        borderColor: grey[300],
+                    }
+                }}
+            >
+                <DrawerHeader>
+                    <IconButton onClick={handleExpand}>
+                        {theme.direction === 'rtl' ? <ChevronRightOutlined /> : <ChevronLeftOutlined />}
+                    </IconButton>
+                </DrawerHeader>
+
+                <List>
+                    {drawerItems.map((item) => {
+                        return item.name == 'space' ? <Box height={'1rem'} /> :
+                            <ListItem key={item.name} disablePadding  sx={{ display: 'block' }}>
+                                <Tooltip key={item.name} title={!isDrawerExpanded ? item.name : null} arrow placement="right">
+                                    <ListItemButton
+                                        sx={{
+                                            minHeight: 48,
+                                            justifyContent: 0 ? 'initial' : 'center',
+                                            px: 2.5,
+                                            m: 1,
+                                            borderRadius: '8px'
+                                        }}
+                                        selected={item.path.split('/').slice(-1)[0] == activeScreen}
+
+                                        onClick={handleRoute(item.path)}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 0,
+                                                mr: isDrawerExpanded ? 2 : 'auto',
+                                                justifyContent: 'center',
+                                            }}
+                                        >
+                                            {<item.icon color={item.path.split('/').slice(-1)[0] == activeScreen ? 'primary' : 'undefined'} />}
+                                        </ListItemIcon>
+                                        <ListItemText primary={item.name} sx={{ opacity: isDrawerExpanded ? 1 : 0 }} />
+                                    </ListItemButton>
+                                </Tooltip>
+                            </ListItem>
+                    })}
+                    <ListItem key={'Show less'} disablePadding sx={{ display: 'block' }}>
+                        <Tooltip key={'Show less'} title={!isDrawerExpanded ? 'Expand' : null} arrow placement="right">
                             <ListItemButton
-                                onClick={handleExpand}
                                 sx={{
-                                    margin: isDrawerExpanded ? '0px 8px 6px 8px' : null,
-                                    borderRadius: isDrawerExpanded ? '8px' : null
+                                    minHeight: 48,
+                                    justifyContent: 0 ? 'initial' : 'center',
+                                    px: 2.5,
+                                    m: 1,
+                                    borderRadius: '8px'
                                 }}
+
+                                onClick={handleExpand}
                             >
-                                <ListItemIcon>{isDrawerExpanded ? <ArrowBackIosNewOutlined /> : <ArrowForwardIosOutlined />}</ListItemIcon>
-                                {isDrawerExpanded ? <ListItemText primary={isDrawerExpanded ? 'Minimize' : null} /> : <></>}
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: isDrawerExpanded ? 2 : 'auto',
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    {isDrawerExpanded ? <ArrowBackIosNewOutlined /> : <ArrowForwardIosOutlined />}
+                                </ListItemIcon>
+                                <ListItemText primary={'Show less'} sx={{ opacity: isDrawerExpanded ? 1 : 0 }} />
                             </ListItemButton>
                         </Tooltip>
-                    </List>
-                </Drawer>
-                <Box
-                    component="main"
-                    sx={{
-                        flexGrow: 1,
-                    }}
-                >
-                    <Toolbar />
-                    {children}
-                </Box>
+                    </ListItem>
+                </List>
+            </Drawer>
+            <Box
+                component="main"
+                sx={{
+                    flexGrow: 1,
+                    backgroundColor: "white",
+                }}
+            >
+                <DrawerHeader />
+                {children}
+                <StickyFooter />
             </Box>
-        </Stack>
+        </Box>
     );
 }

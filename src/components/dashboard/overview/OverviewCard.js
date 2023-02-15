@@ -1,10 +1,10 @@
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, IconButton, Tooltip, Typography } from '@mui/material';
 import { Box, Stack } from '@mui/system';
 import theme from '../../../theme';
-import { TrendingUpOutlined, TrendingDownOutlined } from '@mui/icons-material';
+import { TrendingUpOutlined, TrendingDownOutlined, InfoOutlined } from '@mui/icons-material';
 import { grey } from '@mui/material/colors';
 export default function OverviewCard({ props }) {
-    const { header, title, subtitle, percentage, isDecreasing } = props;
+    const { header, total, thisMonth, lastMonth, extra, percentage, isDecreasing, tooltip } = props;
     return (
         <Card
             variant="outlined"
@@ -14,20 +14,31 @@ export default function OverviewCard({ props }) {
             }}
         >
             <CardContent>
-                <Typography
-                    variant="body2"
-                    sx={{
-                        color: grey[600]
-                    }}
-                >
-                    {header}
-                </Typography>
+                <Stack direction={"row"} sx={{
+                    alignItems: "center",
+                    justifyContent: "space-between"
+
+                }}>
+                    <Typography
+                        variant="body2"
+                        sx={{
+                            color: grey[600]
+                        }}
+                    >
+                        {header}
+                    </Typography>
+                    <Tooltip title={tooltip} arrow placement={"top-start"}>
+                        <IconButton size="small">
+                            <InfoOutlined fontSize='small' />
+                        </IconButton>
+                    </Tooltip>
+                </Stack>
                 <Stack direction="row" sx={{
                     alingItems: 'center',
                     display: 'flex'
                 }}>
-                    <Typography variant="h6">{title}</Typography>
-                    <Box
+                    <Typography variant="h6">{total}</Typography>
+                    {percentage != null && <Box
                         sx={{
                             backgroundColor: isDecreasing ? theme.palette.secondary.main : theme.palette.primary.main,
                             display: 'flex',
@@ -41,10 +52,11 @@ export default function OverviewCard({ props }) {
                         }}
                     >
                         {isDecreasing ? <TrendingDownOutlined fontSize="small" /> : <TrendingUpOutlined fontSize="small" />}
-                        <Typography variant="body2">{percentage}</Typography>
-                    </Box>
+                        <Typography variant="body2">{percentage}%</Typography>
+                    </Box>}
                 </Stack>
-                <Typography variant="caption">{subtitle}</Typography>
+                <Typography variant="caption">{`A number of ${thisMonth} records have been registered this month`}</Typography>
+
             </CardContent>
         </Card>
     );

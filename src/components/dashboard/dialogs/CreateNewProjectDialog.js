@@ -23,7 +23,7 @@ export default function CreateNewProjectDialog(props) {
         description: ""
     });
 
-    const [color, setColor] = useState(theme.palette.primary.main);
+    const [color, setColor] = useState("#2196f3");
 
     const handleChangeColor = (newColor) => {
         if (!loading) {
@@ -110,7 +110,6 @@ export default function CreateNewProjectDialog(props) {
                     width="100%"
                     onChangeComplete={handleChangeColor}
                     color={color}
-
                 />
                 <LoadingButton
                     loading={loading}

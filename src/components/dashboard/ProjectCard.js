@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { Box } from '@mui/system';
 export default function ProjectCard({ props }) {
     const { title, description, id, color, createdAt } = props;
-    const projectPath = `/dashboard/${id}`;
+    const projectPath = `/dashboard/${id}/overview`;
     const router = useRouter();
     const handleOnClick = () => {
         router.push(projectPath);
@@ -34,7 +34,7 @@ export default function ProjectCard({ props }) {
                     borderRadius: "6px"
                 }} />
                 <Typography variant="h6">{title}</Typography>
-                <Typography variant="body2">{description ?? "\u00A0"}</Typography>
+                <Typography variant="body2">{description.substr(0, 50) ?? "\u00A0"}</Typography>
                 <Box sx={{
                     display: "flex",
                     alignItems: "center",

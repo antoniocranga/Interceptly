@@ -16,10 +16,10 @@ export default function ProjectCardSkeleton({ props }) {
                     {
                         my: 2
                     }
-                }/>
+                } />
                 <Skeleton animation="wave" height={10} width="80%" sx={{
                     mb: 1
-                }}/>
+                }} />
             </CardContent>
         </Card>
     );

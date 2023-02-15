@@ -33,6 +33,8 @@ export default function StyledMenu({ pages }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
     const router = useRouter();
+    const paths = router.asPath.split('/');
+    const activeScreen = paths[paths.length - 1].split('?')[0];
     const handleButtonClick = (event) => {
         if (isOpen) {
             setAnchorEl(null);
@@ -66,13 +68,14 @@ export default function StyledMenu({ pages }) {
             <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                 {pages.map((page, index) => {
 
-                    return page.name == 'space' ? <Box sx={{height: '1rem'}}/> : (
+                    return page.name == 'space' ? <Box key={'key'} sx={{ height: '1rem' }} /> : (
                         <MenuItem
                             key={page.name}
                             onClick={createHandleMenuClick(page.path)}
                             sx={{
                                 mb: index < pages.length - 1 ? '5px' : 0
                             }}
+                            selected={page.name.toLowerCase() == activeScreen}
                         >
                             {page.name}
                         </MenuItem>

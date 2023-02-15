@@ -128,7 +128,8 @@ export default function WebsiteNavBar({ children }) {
                             </IconButton>
                             <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                                 {settings.map((setting, index) => {
-                                    return setting.path == '/logout' && !isAuthenticated ? <Container key="0"></Container> : <MenuItem
+                                    return setting.path == '/logout' && !isAuthenticated ? <Container key="0"></Container> : 
+                                    <MenuItem
                                         key={setting.name}
                                         onClick={createHandleMenuClick(setting.path)}
                                         sx={{

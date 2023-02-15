@@ -30,7 +30,7 @@ export default function DrawerList({ isDrawerExpanded }) {
         {
             name: 'Overview',
             icon: FolderCopyOutlined,
-            path: `/dashboard/${projectId}`
+            path: `/dashboard/${projectId}/overview`
         },
         {
             name: 'Issues',

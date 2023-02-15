@@ -29,10 +29,9 @@ import MuiDrawer from '@mui/material/Drawer';
 
 export default function DashboardNavBar({ children }) {
     const router = useRouter();
+    const { projectId } = router.query;
     const paths = router.asPath.split('/');
-    const projectId = paths[2];
-    const activeScreen = paths[paths.length - 1];
-
+    const activeScreen = paths[paths.length - 1].split('?')[0];
     const pages = [
         {
             name: 'Documentation',
@@ -62,7 +61,7 @@ export default function DashboardNavBar({ children }) {
         {
             name: 'Overview',
             icon: FolderCopyOutlined,
-            path: `/dashboard/${projectId}`
+            path: `/dashboard/${projectId}/overview`
         },
         {
             name: 'Issues',
@@ -79,7 +78,7 @@ export default function DashboardNavBar({ children }) {
         {
             name: 'Overview',
             icon: FolderCopyOutlined,
-            path: `/dashboard/${projectId}`
+            path: `/dashboard/${projectId}/overview`
         },
         {
             name: 'Issues',
@@ -281,7 +280,7 @@ export default function DashboardNavBar({ children }) {
                 <List>
                     {drawerItems.map((item) => {
                         return item.name == 'space' ? <Box height={'1rem'} /> :
-                            <ListItem key={item.name} disablePadding  sx={{ display: 'block' }}>
+                            <ListItem key={item.name} disablePadding sx={{ display: 'block' }}>
                                 <Tooltip key={item.name} title={!isDrawerExpanded ? item.name : null} arrow placement="right">
                                     <ListItemButton
                                         sx={{
@@ -291,7 +290,7 @@ export default function DashboardNavBar({ children }) {
                                             m: 1,
                                             borderRadius: '8px'
                                         }}
-                                        selected={item.path.split('/').slice(-1)[0] == activeScreen}
+                                        selected={item.name.toLowerCase() == activeScreen}
 
                                         onClick={handleRoute(item.path)}
                                     >
@@ -302,7 +301,7 @@ export default function DashboardNavBar({ children }) {
                                                 justifyContent: 'center',
                                             }}
                                         >
-                                            {<item.icon color={item.path.split('/').slice(-1)[0] == activeScreen ? 'primary' : 'undefined'} />}
+                                            {<item.icon color={item.name.toLowerCase() == activeScreen ? 'primary' : 'undefined'} />}
                                         </ListItemIcon>
                                         <ListItemText primary={item.name} sx={{ opacity: isDrawerExpanded ? 1 : 0 }} />
                                     </ListItemButton>

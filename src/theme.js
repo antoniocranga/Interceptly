@@ -46,7 +46,12 @@ const theme = createTheme({
             main: '#F0F0F0',
             light: '#F0F0F0',
             dark: '#313131'
-        }
+        },
+        info: {
+            main: grey[600],
+            light: grey[600],
+            dark: '#313131'
+        },
     },
     typography: {
         fontFamily: inter.style.fontFamily
@@ -94,6 +99,14 @@ const theme = createTheme({
             styleOverrides: {
                 paper: {
                     boxShadow: boxShadow
+                }
+            }
+        },
+        MuiDivider: {
+            styleOverrides: {
+                root: {
+                    color: grey[300],
+                    backgroundColor: grey[300]
                 }
             }
         },

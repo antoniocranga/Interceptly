@@ -21,6 +21,7 @@
     "apexcharts": "^3.36.3",
     "axios": "^1.2.0",
     "cookies-next": "^2.1.1",
+    "curlconverter": "^4.5.0",
     "formik": "^2.2.9",
     "js-cookie": "^3.0.1",
     "next": "latest",
@@ -35,6 +36,7 @@
     "react-json-view": "^1.21.3",
     "react-syntax-highlighter": "^15.5.0",
     "react-window": "^1.8.8",
+    "timeago.js": "^4.0.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {

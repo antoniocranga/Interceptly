@@ -1,9 +1,10 @@
-import { Card, CardContent, CardMedia, Divider, Typography } from '@mui/material';
+import { Card, CardContent, CardMedia, Divider, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import theme from '../../theme';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/system';
+import * as timeago from 'timeago.js';
 export default function ProjectCard({ props }) {
     const { title, description, id, color, createdAt } = props;
     const projectPath = `/dashboard/${id}/overview`;
@@ -12,8 +13,7 @@ export default function ProjectCard({ props }) {
         router.push(projectPath);
     };
     const formatedDate = () => {
-        var date = new Date(createdAt);
-        return date.toUTCString();
+        return timeago.format(new Date(createdAt));
     };
     return (
         <Card
@@ -51,14 +51,14 @@ export default function ProjectCard({ props }) {
                         color: grey[400],
                         mx: '0.2rem'
                     }}>•</Typography>
-                    <Typography
+                    <Tooltip title={new Date(createdAt).toUTCString()}><Typography
                         variant="caption"
                         sx={{
                             color: grey[400]
                         }}
                     >
-                        {formatedDate()}
-                    </Typography>
+                        created {formatedDate()}
+                    </Typography></Tooltip>
 
                 </Box>
             </CardContent>

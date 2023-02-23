@@ -10,6 +10,9 @@ export default function Logo({ sx }) {
                 display: 'flex',
                 textDecoration: 'none',
                 color: 'black',
+                mr: {
+                    md: 2
+                },
                 ...{ ...sx }
             }}
         >

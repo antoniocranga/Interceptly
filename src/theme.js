@@ -1,6 +1,8 @@
 import { Inter } from '@next/font/google';
 import { createTheme } from '@mui/material/styles';
 import { grey, red } from '@mui/material/colors';
+import Link from 'next/link';
+import { forwardRef } from 'react';
 
 export const inter = Inter({
     weight: ['300', '400', '500', '600', '700'],
@@ -9,6 +11,9 @@ export const inter = Inter({
     fallback: ['Helvetica', 'Arial', 'sans-serif']
 });
 const boxShadow = 'rgba(0, 0, 0, 0.16) 0px 10px 36px 0px;';
+const LinkBehaviour = forwardRef(function LinkBehaviour(props, ref) {
+    return <Link ref={ref} {...props} />;
+});
 // Create a theme instance.
 const theme = createTheme({
     palette: {
@@ -108,6 +113,18 @@ const theme = createTheme({
                     color: grey[300],
                     backgroundColor: grey[300]
                 }
+            }
+        },
+        MuiLink: {
+            defaultProps: {
+                component: LinkBehaviour,
+                underline: "hover",
+                color: "text.primary"
+            }
+        },
+        MuiButtonBase: {
+            defaultProps: {
+                LinkComponent: LinkBehaviour
             }
         },
         pre: {

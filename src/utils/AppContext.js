@@ -121,7 +121,7 @@ export function AppWrapper({ children }) {
     };
 
     React.useEffect(() => {
-        axios.defaults.baseURL = Endpoints.baseUrl
+        axios.defaults.baseURL = Endpoints.baseUrl;
         if (localStorage.getItem("jwt")) {
             axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
                 "jwt"

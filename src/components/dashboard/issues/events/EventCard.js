@@ -30,7 +30,7 @@ export default function EventCard({ event }) {
             {tags && tags.map((tag) => {
                 const label = tag.split("=")[0];
                 // const value = tag.split("=")[1];
-                return (<Grid item sx={{ mr: '0.5rem', mb: '0.5rem' }}>
+                return (<Grid key={label} item sx={{ mr: '0.5rem', mb: '0.5rem' }}>
                     <Chip icon={icons[label]} variant="outlined" label={tag} key={tag} /></Grid>);
             })}
         </Grid>

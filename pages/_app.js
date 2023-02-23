@@ -12,10 +12,12 @@ import { AppWrapper } from '../src/utils/AppContext';
 import AppLoader from '../src/utils/AppLoader';
 import { SnackbarProvider } from 'notistack';
 import { GlobalStyles } from '@mui/material';
+
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
+
     const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
     const router = useRouter();
     return (

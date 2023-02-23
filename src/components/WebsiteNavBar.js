@@ -17,6 +17,7 @@ import StyledMenu from './StyledMenu';
 import StickyFooter from './Footer';
 import { useRouter } from 'next/router';
 import { useAppContext } from '../utils/AppContext';
+import DocumentationSideNav from './DocumentationSideNav';
 
 export default function WebsiteNavBar({ children }) {
     const pages = [
@@ -68,8 +69,7 @@ export default function WebsiteNavBar({ children }) {
             close();
             if (menuItem == '/logout') {
                 logout();
-            }
-            else {
+            } else {
                 router.push(menuItem);
             }
         };
@@ -81,6 +81,7 @@ export default function WebsiteNavBar({ children }) {
                 color="transparent"
                 elevation={0}
                 sx={{
+                    zIndex: 1201,
                     borderBottom: 1,
                     borderColor: 'grey.300',
                     backdropFilter: 'blur(20px)'
@@ -128,23 +129,27 @@ export default function WebsiteNavBar({ children }) {
                             </IconButton>
                             <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                                 {settings.map((setting, index) => {
-                                    return setting.path == '/logout' && !isAuthenticated ? <Container key="0"></Container> : 
-                                    <MenuItem
-                                        key={setting.name}
-                                        onClick={createHandleMenuClick(setting.path)}
-                                        sx={{
-                                            mb: index < settings.length - 1 ? '5px' : 0
-                                        }}
-                                    >
-                                        {setting.name}
-                                    </MenuItem>
+                                    return setting.path == '/logout' && !isAuthenticated ? (
+                                        <Container key="0"></Container>
+                                    ) : (
+                                        <MenuItem
+                                            key={setting.name}
+                                            onClick={createHandleMenuClick(setting.path)}
+                                            sx={{
+                                                mb: index < settings.length - 1 ? '5px' : 0
+                                            }}
+                                        >
+                                            {setting.name}
+                                        </MenuItem>
+                                    );
                                 })}
                             </Menu>
                         </Box>
                     </Toolbar>
                 </Container>
             </AppBar>
-            {children}
+            {router.asPath.includes('/documentation') ? <DocumentationSideNav>{children}</DocumentationSideNav> :  children }
+            {!router.asPath.includes('/documentation') && <StickyFooter />}
         </div>
     );
 }

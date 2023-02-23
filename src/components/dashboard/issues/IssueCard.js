@@ -4,6 +4,7 @@ import { alpha, Stack } from "@mui/system";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import theme from "../../../theme";
+import * as timeago from 'timeago.js';
 export default function IssueCard(props) {
     const router = useRouter();
     const { projectId } = router.query;
@@ -102,7 +103,7 @@ export default function IssueCard(props) {
                             px: '1rem',
                             borderRadius: '100px',
                             fontWeight: '500',
-                        }}>{formatedDate(issue.lastSeen)}</Typography>
+                        }}>{timeago.format(new Date(issue.lastSeen))}</Typography>
                     </Tooltip>
                 </Stack>
             </Stack>

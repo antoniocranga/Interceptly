@@ -4,7 +4,7 @@ import { setCookie, getCookie } from 'cookies-next';
 
 export default class Api {
     constructor() {
-        this.baseUrl = process.env.ENVIRONMENT == 'test' ? process.env.BASE_URL_TEST : process.env.BASE_URL_PRODUCTION;
+        this.baseUrl = process.env.ENVIRONMENT == 'development' ? process.env.BASE_URL_TEST : process.env.BASE_URL_PRODUCTION;
         this.apiKey = null;
         this.client = null;
         this.apiUrl = 'localhost:8080';

@@ -471,7 +471,7 @@ export default function Issues() {
                         </Stack>
                     </ListItem>
                     {
-                        issues.content.length > 0 ?
+                        issues.content ?
                             issues.content.map((issue, index) => {
                                 return (isLoading ? <IssueCardSkeleton
                                     index={index}

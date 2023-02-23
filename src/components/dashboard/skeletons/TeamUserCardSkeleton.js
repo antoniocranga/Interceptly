@@ -2,9 +2,8 @@ import { Checkbox, ListItem, Skeleton } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
 
-export default function IssueCardSkeleton(props) {
+export default function TeamUserCardSkeleton(props) {
     const { index, length } = props;
-    console.log(index);
     return (<ListItem
         key={index}
         sx={{

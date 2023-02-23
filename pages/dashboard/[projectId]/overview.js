@@ -136,7 +136,7 @@ export default function Project() {
                         </Grid>
                     ))}
                 </Grid>
-                {!isLoadingProject && project.permission == 'OWNER' &&
+                {!isLoadingProject && project.permission != 'VIEW' &&
                     <Stack direction={"column"} sx={{
                         my: '1rem'
                     }} spacing={2}>
@@ -148,7 +148,7 @@ export default function Project() {
                                     mb: '0.5rem'
                                 }}>
                                     <ContentTitle>Project API key</ContentTitle>
-                                    <Button variant='text' color='info' size="small">Documentation</Button>
+                                    <Button variant='text' color='info' size="small" href='/documentation/api'>Documentation</Button>
                                 </Stack>
                                 <ContentSubtitle>The API is secured using an API Key for requests. The API Key binds any request to the project.</ContentSubtitle>
                                 <ContentSubtitle>Use this key along with the request.</ContentSubtitle>
@@ -164,7 +164,7 @@ export default function Project() {
 
                                     <ContentCaption>Example: api.interceptly.io/projects?apiKey=?</ContentCaption>
                                 </Stack>
-                                {project.permission == "OWNER" && <LoadingButton
+                                {project.permission != "VIEW" && <LoadingButton
                                     size="small"
                                     loading={isLoadingProject}
                                     disableElevation
@@ -189,7 +189,7 @@ export default function Project() {
                                 }}>
                                     <ContentTitle>Project settings</ContentTitle>
                                     <Typography variant="body1" fontWeight={"500"}></Typography>
-                                    <Button variant='text' color='info' size="small">Documentation</Button>
+                                    {/* <Button variant='text' color='info' size="small">Documentation</Button> */}
                                 </Stack>
                                 <ContentSubtitle>Change the properties of the project.</ContentSubtitle>
                                 <Divider sx={{ my: '1rem' }} />

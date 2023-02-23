@@ -23,9 +23,6 @@ const TriggerButton = styled('button')(
     background: ${theme.palette.mode === 'dark' ? grey[800] : grey[50]};
     border-color: ${theme.palette.mode === 'dark' ? grey[600] : grey[300]};
   }
-  @media only screen and (min-width: 800px){
-    display: none
-  }
   `
 );
 
@@ -55,7 +52,7 @@ export default function StyledMenu({ pages }) {
     };
     return (
 
-        <div>
+        <>
             <TriggerButton
                 type="button"
                 onClick={handleButtonClick}
@@ -82,6 +79,6 @@ export default function StyledMenu({ pages }) {
                     )
                 })}
             </Menu>
-        </div>
+        </>
     );
 }

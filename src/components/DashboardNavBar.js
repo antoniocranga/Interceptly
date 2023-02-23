@@ -17,7 +17,7 @@ import StyledMenu from './StyledMenu';
 import { Divider, Drawer, List, ListItem, ListItemButton, styled } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { MailIcon, InboxOutlined, ArrowBackIosNewOutlined, ArrowForwardIosOutlined, MailOutline, FolderCopyOutlined, ChevronRightOutlined, ChevronLeftOutlined, BugReportOutlined, AnalyticsOutlined } from '@mui/icons-material';
+import { MailIcon, InboxOutlined, ArrowBackIosNewOutlined, ArrowForwardIosOutlined, MailOutline, FolderCopyOutlined, ChevronRightOutlined, ChevronLeftOutlined, BugReportOutlined, AnalyticsOutlined, GroupsOutlined } from '@mui/icons-material';
 import { Stack } from '@mui/system';
 import theme from '../theme';
 import StickyFooter from './Footer';
@@ -73,6 +73,11 @@ export default function DashboardNavBar({ children }) {
             icon: AnalyticsOutlined,
             path: `/dashboard/${projectId}/statistics`
         },
+        {
+            name: 'Team',
+            icon: GroupsOutlined,
+            path: `/dashboard/${projectId}/team`
+        },
     ];
     const allItems = [
         {
@@ -89,6 +94,11 @@ export default function DashboardNavBar({ children }) {
             name: 'Statistics',
             icon: AnalyticsOutlined,
             path: `/dashboard/${projectId}/statistics`
+        },
+        {
+            name: 'Team',
+            icon: GroupsOutlined,
+            path: `/dashboard/${projectId}/team`
         },
         {
             name: 'space',

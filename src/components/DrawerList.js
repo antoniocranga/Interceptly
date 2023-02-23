@@ -12,7 +12,8 @@ import {
     TimelineOutlined,
     HomeOutlined,
     ArrowForwardIosOutlined,
-    ArrowBackIosNewOutlined
+    ArrowBackIosNewOutlined,
+    GroupsOutlined
 } from '@mui/icons-material';
 import { Stack } from '@mui/system';
 import ListSubheader from '@mui/material/ListSubheader';
@@ -41,7 +42,12 @@ export default function DrawerList({ isDrawerExpanded }) {
             name: 'Statistics',
             icon: AnalyticsOutlined,
             path: `/dashboard/${projectId}/statistics`
-        }
+        },
+        {
+            name: 'Team',
+            icon: GroupsOutlined,
+            path: `/dashboard/${projectId}/team`
+        },
     ];
     const createHandleMenuClick = (menuItem) => {
         return () => {

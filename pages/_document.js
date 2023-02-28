@@ -13,6 +13,8 @@ export default class MyDocument extends Document {
                     <meta name="theme-color" content={theme.palette.background.default} />
                     <link rel="shortcut icon" href="/favicon.ico" />
                     <meta name="emotion-insertion-point" content="" />
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
                     {this.props.emotionStyleTags}
                 </Head>
                 <body>

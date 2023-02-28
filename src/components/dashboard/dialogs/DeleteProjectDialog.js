@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from "@mui/material";
 import theme from "../../../theme";
 
-export default function ResetApiKeyDialog(props) {
+export default function DeleteProjectDialog(props) {
     const { onClose, open, onReset } = props;
 
     const handleClose = () => {
@@ -12,13 +12,13 @@ export default function ResetApiKeyDialog(props) {
         onReset();
     }
     return (<Dialog onClose={handleClose} open={open} fullWidth={true} maxWidth={'sm'}>
-        <DialogTitle>Reset API Key?</DialogTitle>
+        <DialogTitle>Delete the project?</DialogTitle>
         <DialogContent>
-            <DialogContentText>By resetting the API Key, the access with the previous API Key will be revoked and the requests made using it will not be considered.</DialogContentText>
+            <DialogContentText>By deleting the project, any information linked to it such as events, issues and permissions will be erased, and can not be recovered.</DialogContentText>
             <Button onClick={handleOnReset} autoFocus sx={{
                 mt: '2rem'
             }} variant="contained" disableElevation color="error" size="small">
-                Reset api key
+                Delete project
             </Button>
             <Button onClick={handleClose} sx={{
                 ml: '1rem',

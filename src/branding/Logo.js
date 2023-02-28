@@ -1,5 +1,4 @@
-import { Typography } from '@mui/material';
-import Link from 'next/link';
+import { Link, Typography } from '@mui/material';
 export default function Logo({ sx }) {
     return (
         <Typography
@@ -7,7 +6,7 @@ export default function Logo({ sx }) {
             component={Link}
             href="/"
             sx={{
-                display: 'flex',
+                display: 'inline-block',
                 textDecoration: 'none',
                 color: 'black',
                 mr: {

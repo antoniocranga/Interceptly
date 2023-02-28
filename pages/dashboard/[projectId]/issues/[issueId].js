@@ -30,6 +30,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Endpoints from '../../../../src/api/endpoints';
 import TeamMemberDialog from '../../../../src/components/dashboard/dialogs/TeamMemberDialog';
+import CommentsSection from '../../../../src/components/dashboard/issues/CommentsSection';
 import EventCard from '../../../../src/components/dashboard/issues/events/EventCard';
 import theme from '../../../../src/theme';
 
@@ -61,6 +62,7 @@ export default function Issue() {
     const [collaborators, setCollaborators] = useState([]);
     const [collaborationAnchorEl, setCollaborationAnchorEl] = useState(null);
     const isCollaborationMenuOpen = Boolean(collaborationAnchorEl);
+    const [comments, setComments] = useState([]);
     const handleCollaborationMenu = (event) => {
         if (isCollaborationMenuOpen) {
             setCollaborationAnchorEl(null);
@@ -148,12 +150,13 @@ export default function Issue() {
                 data = data.data;
                 setIssue(data);
                 setCollaborators(data.collaborators);
+                setComments(data.comments);
                 setIsLoading(false);
             })
             .catch((err) => {
                 console.log(err);
-                router.reload();
-                setIsLoading(false);
+                // router.reload();
+                // setIsLoading(false);
             });
         axios
             .get(`${Endpoints.projects}/${projectId}/permissions`)
@@ -179,12 +182,13 @@ export default function Issue() {
                 issueId: issueId
             })
             .then((data) => {
-                setCollaborators(
-                    collaborators.push({
+                setCollaborators([
+                    ...collaborators,
+                    {
                         userId: user.id,
                         email: user.email
-                    })
-                );
+                    }
+                ]);
             })
             .catch((err) => {});
     };
@@ -212,216 +216,242 @@ export default function Issue() {
         >
             <Container>
                 {!isLoading && issue && (
-                    <Stack spacing={2}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <Stack direction={'row'} spacing={1}>
-                                    <LabelItem color={theme.palette.warning.main}>{issue.type}</LabelItem>
-                                    <LabelItem color={theme.palette.info.main}>{issue.status}</LabelItem>
-                                </Stack>
-                            </Grid>
-                            <Grid
-                                item
-                                xs={12}
-                                sm={6}
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: {
-                                        xs: 'space-between',
-                                        sm: 'end'
-                                    }
-                                }}
-                            >
-                                <ButtonGroup disableElevation variant="outlined" size="small" color={'primary'} disabled={isLoading}>
-                                    <Button startIcon={<CheckOutlined />} onClick={updateStatus('RESOLVED')}>
-                                        Resolve
-                                    </Button>
-                                    <Button
-                                        onClick={handleButtonDropdown}
-                                        aria-controls={isOpen ? 'simple-menu' : undefined}
-                                        aria-expanded={isOpen || undefined}
-                                        aria-haspopup="menu"
-                                    >
-                                        <KeyboardArrowDownOutlined />
-                                    </Button>
-                                </ButtonGroup>
-                                <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
-                                    {actions.map((action, index) => (
-                                        <MenuItem
-                                            key={action.value}
-                                            onClick={updateStatus(action.value)}
-                                            sx={{
-                                                mb: index < actions.length - 1 ? '5px' : 0
-                                            }}
-                                        >
-                                            {action.label}
-                                        </MenuItem>
-                                    ))}
-                                </Menu>
-                                <IconButton size={'small'} sx={{ ml: '0.5rem' }} onClick={handleCollaborationMenu}>
-                                    <GroupAdd color="disabled" />
-                                </IconButton>
-                                <Menu
-                                    open={isCollaborationMenuOpen}
-                                    onClose={closeCollaborationMenu}
-                                    anchorEl={collaborationAnchorEl}
-                                    PaperProps={{ sx: { width: '350px' } }}
-                                >
-                                    <Box
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} lg={8}>
+                            <Stack spacing={2}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={6}>
+                                        <Stack direction={'row'} spacing={1}>
+                                            <LabelItem color={theme.palette.warning.main}>{issue.type}</LabelItem>
+                                            <LabelItem color={theme.palette.info.main}>{issue.status}</LabelItem>
+                                        </Stack>
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        xs={12}
+                                        sm={6}
                                         sx={{
-                                            mx: '1rem',
+                                            display: 'flex',
+                                            justifyContent: {
+                                                xs: 'space-between',
+                                                sm: 'end'
+                                            }
+                                        }}
+                                    >
+                                        <ButtonGroup
+                                            disableElevation
+                                            variant="outlined"
+                                            size="small"
+                                            color={'primary'}
+                                            disabled={isLoading}
+                                        >
+                                            <Button startIcon={<CheckOutlined />} onClick={updateStatus('RESOLVED')}>
+                                                Resolve
+                                            </Button>
+                                            <Button
+                                                onClick={handleButtonDropdown}
+                                                aria-controls={isOpen ? 'simple-menu' : undefined}
+                                                aria-expanded={isOpen || undefined}
+                                                aria-haspopup="menu"
+                                            >
+                                                <KeyboardArrowDownOutlined />
+                                            </Button>
+                                        </ButtonGroup>
+                                        <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
+                                            {actions.map((action, index) => (
+                                                <MenuItem
+                                                    key={action.value}
+                                                    onClick={updateStatus(action.value)}
+                                                    sx={{
+                                                        mb: index < actions.length - 1 ? '5px' : 0
+                                                    }}
+                                                >
+                                                    {action.label}
+                                                </MenuItem>
+                                            ))}
+                                        </Menu>
+                                        <IconButton size={'small'} sx={{ ml: '0.5rem' }} onClick={handleCollaborationMenu}>
+                                            <GroupAdd color="disabled" />
+                                        </IconButton>
+                                        <Menu
+                                            open={isCollaborationMenuOpen}
+                                            onClose={closeCollaborationMenu}
+                                            anchorEl={collaborationAnchorEl}
+                                            PaperProps={{ sx: { width: '350px' } }}
+                                        >
+                                            <Box
+                                                sx={{
+                                                    mx: '1rem',
+                                                    mb: '1rem'
+                                                }}
+                                            >
+                                                <Stack direction="row" justifyContent="space-between" alignItems={'center'}>
+                                                    <Typography variant="body1" fontWeight={500}>
+                                                        Assign issue
+                                                    </Typography>
+                                                    <Button size="small" href={`/dashboard/${projectId}/team`}>
+                                                        Add members
+                                                    </Button>
+                                                </Stack>
+                                                <Typography variant="caption">Assign an issue to a team member.</Typography>
+                                            </Box>
+                                            <TextField
+                                                size="small"
+                                                id={'collaboration-input-textfield'}
+                                                key={'collaboration-input-textfield'}
+                                                fullWidth
+                                                sx={{
+                                                    backgroundColor: 'white',
+                                                    borderRadius: '8px'
+                                                }}
+                                                type="email"
+                                                placeholder="Search by email address"
+                                                onChange={handleCollaborationUsers}
+                                            />
+                                            <List
+                                                disablePadding
+                                                sx={{
+                                                    mt: '1rem'
+                                                }}
+                                            >
+                                                {permissionsFilter.slice(0, 5).map((user) => {
+                                                    return (
+                                                        <ListItem
+                                                            disablePadding
+                                                            key={user.id}
+                                                            secondaryAction={
+                                                                !collaborators.find((collab) => collab.userId == user.id) ? (
+                                                                    <AddOutlined fontSize="small" color="primary" />
+                                                                ) : (
+                                                                    <RemoveOutlined fontSize="small" color="error" />
+                                                                )
+                                                            }
+                                                        >
+                                                            <ListItemButton
+                                                                selected={collaborators.find((collab) => collab.userId == user.id)}
+                                                                sx={{
+                                                                    borderRadius: '8px'
+                                                                }}
+                                                                onClick={
+                                                                    collaborators.find((collab) => collab.userId == user.id)
+                                                                        ? removeCollaborator(user)
+                                                                        : addCollaborator(user)
+                                                                }
+                                                            >
+                                                                <ListItemText primary={user.email} />
+                                                            </ListItemButton>
+                                                        </ListItem>
+                                                    );
+                                                })}
+                                            </List>
+                                        </Menu>
+                                    </Grid>
+                                </Grid>
+                                <Box>
+                                    <Grid
+                                        container
+                                        spacing={1}
+                                        sx={{
+                                            mb: '1rem'
+                                        }}
+                                    >
+                                        {collaborators &&
+                                            collaborators.map((collaborator) => {
+                                                return (
+                                                    <Grid item key={collaborator.id}>
+                                                        <Chip
+                                                            variant="outlined"
+                                                            color="info"
+                                                            avatar={<Avatar>{collaborator.email[0]}</Avatar>}
+                                                            label={collaborator.email.split('@')[0]}
+                                                        ></Chip>
+                                                    </Grid>
+                                                );
+                                            })}
+                                    </Grid>
+                                    <Stack direction={'row'} spacing={1}>
+                                        <Typography variant="body2">Issue Id: </Typography>
+                                        <Typography variant="body2" color={theme.palette.primary.main}>
+                                            {issue.id}
+                                        </Typography>
+                                    </Stack>
+                                    <Typography
+                                        variant={'h6'}
+                                        sx={{
                                             mb: '0.5rem'
                                         }}
                                     >
-                                        <Typography variant="body1" fontWeight={500}>
-                                            Assign issue
-                                        </Typography>
-                                        <Typography variant="caption">Assign an issue to a team member.</Typography>
-                                    </Box>
-                                    <TextField
-                                        size="small"
-                                        id={'collaboration-input-textfield'}
-                                        key={'collaboration-input-textfield'}
-                                        fullWidth
-                                        sx={{
-                                            backgroundColor: 'white',
-                                            borderRadius: '8px'
-                                        }}
-                                        type="email"
-                                        placeholder="Search by email address"
-                                        onChange={handleCollaborationUsers}
-                                    />
-                                    <List disablePadding>
-                                        {permissionsFilter.slice(0, 5).map((user) => {
-                                            return (
-                                                <ListItem
-                                                    disablePadding
-                                                    key={user.id}
-                                                    secondaryAction={
-                                                        !collaborators.find((collab) => collab.userId == user.id) ? (
-                                                            <AddOutlined fontSize="small" color="primary" />
-                                                        ) : (
-                                                            <RemoveOutlined fontSize="small" color="error" />
-                                                        )
-                                                    }
-                                                >
-                                                    <ListItemButton
-                                                        selected={collaborators.find((collab) => collab.userId == user.id)}
-                                                        sx={{
-                                                            borderRadius: '8px'
-                                                        }}
-                                                        onClick={
-                                                            collaborators.find((collab) => collab.userId == user.id)
-                                                                ? removeCollaborator(user)
-                                                                : addCollaborator(user)
-                                                        }
-                                                    >
-                                                        <ListItemText primary={user.email} />
-                                                    </ListItemButton>
-                                                </ListItem>
-                                            );
-                                        })}
-                                    </List>
-                                </Menu>
-                            </Grid>
-                        </Grid>
-                        <Box>
-                            <Grid
-                                container
-                                spacing={1}
-                                sx={{
-                                    mb: '1rem'
-                                }}
-                            >
-                                {collaborators &&
-                                    collaborators.map((collaborator) => {
-                                        return (
-                                            <Grid item key={collaborator.id}>
-                                                <Chip
-                                                    variant="outlined"
-                                                    color="info"
-                                                    avatar={<Avatar>{collaborator.email[0]}</Avatar>}
-                                                    label={collaborator.email.split('@')[0]}
-                                                ></Chip>
-                                            </Grid>
-                                        );
-                                    })}
-                            </Grid>
-                            <Stack direction={'row'} spacing={1}>
-                                <Typography variant="body2">Issue Id: </Typography>
-                                <Typography variant="body2" color={theme.palette.primary.main}>
-                                    {issue.id}
-                                </Typography>
-                            </Stack>
-                            <Typography
-                                variant={'h6'}
-                                sx={{
-                                    mb: '0.5rem'
-                                }}
-                            >
-                                {issue.title}
-                            </Typography>
-                            <Collapse in={collapsed} collapsedSize={40}>
-                                <Typography variant={'body2'}>{issue.description}</Typography>
-                            </Collapse>
-                            {issue.description.length > 60 && (
-                                <Stack
-                                    direction={'row'}
-                                    sx={{
-                                        justifyContent: 'end'
-                                    }}
-                                >
-                                    <Button variant="text" size="small" onClick={handleCollapsed}>
-                                        {collapsed ? 'See less' : 'See more'}
-                                    </Button>
-                                </Stack>
-                            )}
-                        </Box>
-                        <ContentBox>
-                            <CardContent>
-                                <Grid container spacing={2}>
-                                    {[
-                                        { date: issue.createdAt, label: 'Created at' },
-                                        { date: issue.updatedAt, label: 'Updated at' },
-                                        { date: issue.lastSeen, label: 'Last seen' }
-                                    ].map((value, index) => (
-                                        <Grid item key={`dates-${index}`} xs={12} sm={6} md={4}>
-                                            <TextField
-                                                value={formatedDate(value.date)}
-                                                fullWidth
-                                                size="small"
-                                                disabled
-                                                label={value.label}
-                                            />
+                                        {issue.title}
+                                    </Typography>
+                                    <Collapse in={collapsed} collapsedSize={40}>
+                                        <Typography variant={'body2'}>{issue.description}</Typography>
+                                    </Collapse>
+                                    {issue.description.length > 60 && (
+                                        <Stack
+                                            direction={'row'}
+                                            sx={{
+                                                justifyContent: 'end'
+                                            }}
+                                        >
+                                            <Button variant="text" size="small" onClick={handleCollapsed}>
+                                                {collapsed ? 'See less' : 'See more'}
+                                            </Button>
+                                        </Stack>
+                                    )}
+                                </Box>
+                                <ContentBox>
+                                    <CardContent>
+                                        <Grid container spacing={2}>
+                                            {[
+                                                { date: issue.createdAt, label: 'Created at' },
+                                                { date: issue.updatedAt, label: 'Updated at' },
+                                                { date: issue.lastSeen, label: 'Last seen' }
+                                            ].map((value, index) => (
+                                                <Grid item key={`dates-${index}`} xs={12} sm={6} md={4}>
+                                                    <TextField
+                                                        value={formatedDate(value.date)}
+                                                        fullWidth
+                                                        size="small"
+                                                        disabled
+                                                        label={value.label}
+                                                    />
+                                                </Grid>
+                                            ))}
                                         </Grid>
-                                    ))}
-                                </Grid>
-                            </CardContent>
-                        </ContentBox>
-                        <ContentBox>
-                            <CardContent>
-                                <ContentTitle>Event: {issue.events.content[0].id}</ContentTitle>
-                                <Divider />
-                                <List>
-                                    {issue.events.content.map((event) => (
-                                        <EventCard event={event} />
-                                    ))}
-                                </List>
-                                <TablePagination
-                                    component={'div'}
-                                    count={issue.events.totalElements}
-                                    page={pagination.page}
-                                    rowsPerPage={1}
-                                    rowsPerPageOptions={[]}
-                                    onPageChange={changePage}
-                                    onRowsPerPageChange={changeSize}
-                                    labelRowsPerPage={'Issues per page'}
-                                />
-                            </CardContent>
-                        </ContentBox>
-                    </Stack>
+                                    </CardContent>
+                                </ContentBox>
+                                <ContentBox>
+                                    <CardContent>
+                                        <ContentTitle>Event: {issue.events.content[0].id}</ContentTitle>
+                                        <Divider />
+                                        <List>
+                                            {issue.events.content.map((event) => (
+                                                <EventCard event={event} />
+                                            ))}
+                                        </List>
+                                        <TablePagination
+                                            component={'div'}
+                                            count={issue.events.totalElements}
+                                            page={pagination.page}
+                                            rowsPerPage={1}
+                                            rowsPerPageOptions={[]}
+                                            onPageChange={changePage}
+                                            onRowsPerPageChange={changeSize}
+                                            labelRowsPerPage={'Issues per page'}
+                                        />
+                                    </CardContent>
+                                </ContentBox>
+                            </Stack>
+                        </Grid>
+                        <Grid item xs={12} lg={4}>
+                            <ContentBox>
+                                <CardContent>
+                                    <CommentsSection issueComments={issue.comments} />
+                                </CardContent>
+                            </ContentBox>
+                        </Grid>
+                    </Grid>
                 )}
-                {/* <TeamMemberDialog onClose={handleClose} open={openDialog}></TeamMemberDialog> */}
             </Container>
         </Box>
     );

@@ -12,6 +12,7 @@ import OverviewCard from '../../../src/components/dashboard/overview/OverviewCar
 import ProjectCardSkeleton from '../../../src/components/dashboard/skeletons/ProjectCardSkeleton';
 import Circle from "react-color/lib/components/circle/Circle";
 import ResetApiKeyDialog from '../../../src/components/dashboard/dialogs/ResetApiKeyDialog';
+import DeleteProjectDialog from '../../../src/components/dashboard/dialogs/DeleteProjectDialog';
 
 export default function Project() {
     const skeletons = [
@@ -39,7 +40,27 @@ export default function Project() {
 
     const [color, setColor] = useState('');
     const [open, setOpen] = useState(false);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
+    const deleteProject = () => {
+        if(projectId){
+            setIsLoadingProject(true);
+            axios.delete(`${Endpoints.projects}`, {
+                data:{
+                    projectId:  projectId
+                }
+            }).then((data) => {
+                enqueueSnackbar('You will be redirected!', { variant: 'success', autoHideDuration: 3000 });
+                setOpenDeleteDialog(false);
+                setIsLoadingProject(false);
+                router.push("/dashboard");
+            }).catch((data) => {
+                enqueueSnackbar('An error has occured, please try again', { variant: 'error', autoHideDuration: 3000 });
+                setOpenDeleteDialog(false);
+                setIsLoadingProject(false);
+            });
+        }
+    };
 
     const handleChangeColor = (newColor) => {
         if (project.permission == "OWNER") {
@@ -70,7 +91,6 @@ export default function Project() {
     };
 
     const resetApiKey = () => {
-        console.log('aici');
         if (projectId) {
             setOpen(false);
             setIsLoadingProject(true);
@@ -78,11 +98,14 @@ export default function Project() {
                 console.log(data);
                 enqueueSnackbar('API Key regenerated', { variant: 'success', autoHideDuration: 3000 });
                 setProject(data.data);
+                setOpen(false);
                 setIsLoadingProject(false);
+                
             }).catch((err) => {
                 console.log(err);
                 enqueueSnackbar('An error has occured, please try again', { variant: 'error', autoHideDuration: 3000 });
                 setProject({});
+                setOpen(false);
                 setIsLoadingProject(false);
             });
         }
@@ -251,12 +274,23 @@ export default function Project() {
                                         <ContentCaption tooltip={"The date when the project was created"}>{new Date(project.project.createdAt).toUTCString()}</ContentCaption>
                                     </Box>
                                 </Stack>
+                                <Divider sx={{
+                                    my: '1rem'
+                                }}/>
+                            <Stack display="flex" direction="row" justifyContent={"end"}>
+                                <Button color="error" size="small" onClick={() => setOpenDeleteDialog(true)}>Delete project</Button>
+                            </Stack>
                             </CardContent>
                         </ContentBox>
                         {project.permission == "OWNER" && <ResetApiKeyDialog
                             onClose={() => setOpen(false)}
                             open={open}
                             onReset={resetApiKey}
+                        />}
+                        {project.permission == "OWNER" && <DeleteProjectDialog
+                            onClose={() => setOpenDeleteDialog(false)}
+                            open={openDeleteDialog}
+                            onReset={deleteProject}
                         />}
                     </Stack>}
             </Container>

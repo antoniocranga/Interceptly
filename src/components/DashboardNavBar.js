@@ -14,10 +14,23 @@ import MenuItem from '@mui/material/MenuItem';
 import Logo from '../branding/Logo';
 import Link from 'next/link';
 import StyledMenu from './StyledMenu';
-import { Divider, Drawer, List, ListItem, ListItemButton, styled } from '@mui/material';
+import { Divider, Drawer, Grid, List, ListItem, ListItemButton, styled } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { MailIcon, InboxOutlined, ArrowBackIosNewOutlined, ArrowForwardIosOutlined, MailOutline, FolderCopyOutlined, ChevronRightOutlined, ChevronLeftOutlined, BugReportOutlined, AnalyticsOutlined, GroupsOutlined } from '@mui/icons-material';
+import {
+    MailIcon,
+    InboxOutlined,
+    ArrowBackIosNewOutlined,
+    ArrowForwardIosOutlined,
+    MailOutline,
+    FolderCopyOutlined,
+    ChevronRightOutlined,
+    ChevronLeftOutlined,
+    BugReportOutlined,
+    AnalyticsOutlined,
+    GroupsOutlined,
+    NotificationsOutlined
+} from '@mui/icons-material';
 import { Stack } from '@mui/system';
 import theme from '../theme';
 import StickyFooter from './Footer';
@@ -26,6 +39,7 @@ import { grey } from '@mui/material/colors';
 import { useRouter } from 'next/router';
 import { useAppContext } from '../utils/AppContext';
 import MuiDrawer from '@mui/material/Drawer';
+import NotificationsSection from './notifications/NotificationsSection';
 
 export default function DashboardNavBar({ children }) {
     const router = useRouter();
@@ -48,10 +62,10 @@ export default function DashboardNavBar({ children }) {
             name: 'Dashboard',
             path: '/dashboard'
         },
-        {
-            name: 'Account',
-            path: '/account'
-        },
+        // {
+        //     name: 'Account',
+        //     path: '/account'
+        // },
         {
             name: 'Logout',
             path: '/logout'
@@ -77,7 +91,7 @@ export default function DashboardNavBar({ children }) {
             name: 'Team',
             icon: GroupsOutlined,
             path: `/dashboard/${projectId}/team`
-        },
+        }
     ];
     const allItems = [
         {
@@ -101,7 +115,7 @@ export default function DashboardNavBar({ children }) {
             path: `/dashboard/${projectId}/team`
         },
         {
-            name: 'space',
+            name: 'space'
         },
         {
             name: 'Documentation',
@@ -139,8 +153,7 @@ export default function DashboardNavBar({ children }) {
             close();
             if (menuItem == '/logout') {
                 logout();
-            }
-            else {
+            } else {
                 router.push(menuItem);
             }
         };
@@ -149,28 +162,28 @@ export default function DashboardNavBar({ children }) {
     const handleRoute = (path) => {
         return () => {
             router.push(path);
-        }
-    }
+        };
+    };
 
     const openedMixin = (theme) => ({
         width: drawerWidth,
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
+            duration: theme.transitions.duration.enteringScreen
         }),
-        overflowX: 'hidden',
+        overflowX: 'hidden'
     });
 
     const closedMixin = (theme) => ({
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
+            duration: theme.transitions.duration.leavingScreen
         }),
         overflowX: 'hidden',
         width: `calc(${theme.spacing(7)} + 1px)`,
         [theme.breakpoints.up('sm')]: {
-            width: `calc(${theme.spacing(8)} + 1px)`,
-        },
+            width: `calc(${theme.spacing(8)} + 1px)`
+        }
     });
     const DrawerHeader = styled('div')(({ theme }) => ({
         display: 'flex',
@@ -178,28 +191,28 @@ export default function DashboardNavBar({ children }) {
         justifyContent: 'flex-end',
         padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
-        ...theme.mixins.toolbar,
+        ...theme.mixins.toolbar
     }));
-    const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-        ({ theme, open }) => ({
-            width: drawerWidth,
-            flexShrink: 0,
-            whiteSpace: 'nowrap',
-            boxSizing: 'border-box',
-            ...(open && {
-                ...openedMixin(theme),
-                '& .MuiDrawer-paper': openedMixin(theme),
-            }),
-            ...(!open && {
-                ...closedMixin(theme),
-                '& .MuiDrawer-paper': closedMixin(theme),
-            }),
+    const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
+        width: drawerWidth,
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
+        boxSizing: 'border-box',
+        ...(open && {
+            ...openedMixin(theme),
+            '& .MuiDrawer-paper': openedMixin(theme)
         }),
-    );
+        ...(!open && {
+            ...closedMixin(theme),
+            '& .MuiDrawer-paper': closedMixin(theme)
+        })
+    }));
     return (
-        <Box sx={{
-            display: "flex"
-        }}>
+        <Box
+            sx={{
+                display: 'flex'
+            }}
+        >
             <AppBar
                 position="fixed"
                 color="transparent"
@@ -218,15 +231,51 @@ export default function DashboardNavBar({ children }) {
                             display: { xs: 'none', md: 'flex' }
                         }}
                     />
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <StyledMenu pages={allItems} />
-                    </Box>
-                    <Logo
+                    <Grid
+                        container
+                        alignItems={'center'}
                         sx={{
-                            flexGrow: 1,
-                            display: { xs: 'flex', md: 'none' }
+                            display: {
+                                xs: 'flex',
+                                md: 'none'
+                            }
                         }}
-                    />
+                    >
+                        <Grid item xs={4} justifyContent={'start'} display="flex">
+                            <StyledMenu pages={allItems} />
+                        </Grid>
+                        <Grid item xs={4} justifyContent={'center'} display="flex">
+                            <Logo />
+                        </Grid>
+                        <Grid item xs={4} justifyContent={'end'} display="flex">
+                            <NotificationsSection />
+                            <IconButton
+                                onClick={handleButtonClick}
+                                aria-controls={isOpen ? 'simple-menu' : undefined}
+                                aria-expanded={isOpen || undefined}
+                                aria-haspopup="menu"
+                            >
+                                <Avatar alt="U" />
+                            </IconButton>
+                            <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
+                                {settings.map((setting, index) => {
+                                    return setting.path == '/logout' && !isAuthenticated ? (
+                                        <Container key="0"></Container>
+                                    ) : (
+                                        <MenuItem
+                                            key={setting.name}
+                                            onClick={createHandleMenuClick(setting.path)}
+                                            sx={{
+                                                mb: index < settings.length - 1 ? '5px' : 0
+                                            }}
+                                        >
+                                            {setting.name}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Menu>
+                        </Grid>
+                    </Grid>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <Button
@@ -242,7 +291,17 @@ export default function DashboardNavBar({ children }) {
                             </Button>
                         ))}
                     </Box>
-                    <Box sx={{ flexGrow: 0 }}>
+                    <Box
+                        sx={{
+                            flexGrow: 0,
+                            display: {
+                                xs: 'none',
+                                md: 'flex'
+                            }
+                        }}
+                    >
+                        <NotificationsSection />
+
                         <IconButton
                             onClick={handleButtonClick}
                             aria-controls={isOpen ? 'simple-menu' : undefined}
@@ -253,15 +312,19 @@ export default function DashboardNavBar({ children }) {
                         </IconButton>
                         <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                             {settings.map((setting, index) => {
-                                return setting.path == '/logout' && !isAuthenticated ? <Container key="0"></Container> : <MenuItem
-                                    key={setting.name}
-                                    onClick={createHandleMenuClick(setting.path)}
-                                    sx={{
-                                        mb: index < settings.length - 1 ? '5px' : 0
-                                    }}
-                                >
-                                    {setting.name}
-                                </MenuItem>
+                                return setting.path == '/logout' && !isAuthenticated ? (
+                                    <Container key="0"></Container>
+                                ) : (
+                                    <MenuItem
+                                        key={setting.name}
+                                        onClick={createHandleMenuClick(setting.path)}
+                                        sx={{
+                                            mb: index < settings.length - 1 ? '5px' : 0
+                                        }}
+                                    >
+                                        {setting.name}
+                                    </MenuItem>
+                                );
                             })}
                         </Menu>
                     </Box>
@@ -273,11 +336,11 @@ export default function DashboardNavBar({ children }) {
                 sx={{
                     display: {
                         xs: 'none',
-                        md: !router.pathname.includes("/create-project") ? 'flex' : 'none'
+                        md: !router.pathname.includes('/create-project') ? 'flex' : 'none'
                     },
                     '& .MuiDrawer-paper': {
                         borderRight: 1,
-                        borderColor: grey[300],
+                        borderColor: grey[300]
                     }
                 }}
             >
@@ -289,7 +352,9 @@ export default function DashboardNavBar({ children }) {
 
                 <List>
                     {drawerItems.map((item) => {
-                        return item.name == 'space' ? <Box height={'1rem'} /> :
+                        return item.name == 'space' ? (
+                            <Box height={'1rem'} />
+                        ) : (
                             <ListItem key={item.name} disablePadding sx={{ display: 'block' }}>
                                 <Tooltip key={item.name} title={!isDrawerExpanded ? item.name : null} arrow placement="right">
                                     <ListItemButton
@@ -301,14 +366,13 @@ export default function DashboardNavBar({ children }) {
                                             borderRadius: '8px'
                                         }}
                                         selected={item.name.toLowerCase() == activeScreen}
-
                                         onClick={handleRoute(item.path)}
                                     >
                                         <ListItemIcon
                                             sx={{
                                                 minWidth: 0,
                                                 mr: isDrawerExpanded ? 2 : 'auto',
-                                                justifyContent: 'center',
+                                                justifyContent: 'center'
                                             }}
                                         >
                                             {<item.icon color={item.name.toLowerCase() == activeScreen ? 'primary' : 'undefined'} />}
@@ -317,6 +381,7 @@ export default function DashboardNavBar({ children }) {
                                     </ListItemButton>
                                 </Tooltip>
                             </ListItem>
+                        );
                     })}
                     <ListItem key={'Show less'} disablePadding sx={{ display: 'block' }}>
                         <Tooltip key={'Show less'} title={!isDrawerExpanded ? 'Expand' : null} arrow placement="right">
@@ -328,14 +393,13 @@ export default function DashboardNavBar({ children }) {
                                     m: 1,
                                     borderRadius: '8px'
                                 }}
-
                                 onClick={handleExpand}
                             >
                                 <ListItemIcon
                                     sx={{
                                         minWidth: 0,
                                         mr: isDrawerExpanded ? 2 : 'auto',
-                                        justifyContent: 'center',
+                                        justifyContent: 'center'
                                     }}
                                 >
                                     {isDrawerExpanded ? <ArrowBackIosNewOutlined /> : <ArrowForwardIosOutlined />}
@@ -350,7 +414,7 @@ export default function DashboardNavBar({ children }) {
                 component="main"
                 sx={{
                     flexGrow: 1,
-                    backgroundColor: "white",
+                    backgroundColor: 'white'
                 }}
             >
                 <DrawerHeader />

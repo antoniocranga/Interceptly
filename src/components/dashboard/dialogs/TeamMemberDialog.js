@@ -147,9 +147,11 @@ export default function TeamMemberDialog(props) {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} display="flex" justifyContent={'end'}>
-                        <Button variant="text" color="error" onClick={removeMember}>
-                            Remove member
-                        </Button>
+                        {user && (
+                            <Button variant="text" color="error" onClick={removeMember}>
+                                Remove member
+                            </Button>
+                        )}
                     </Grid>
                 </Grid>
                 <LoadingButton

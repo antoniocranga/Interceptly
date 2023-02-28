@@ -4,4 +4,6 @@ export default class Endpoints {
     static register = "/register";
     static users = "/users";
     static projects = "/projects";
+    static comments = "/comments";
+    static notifications = "/notifications";
 }

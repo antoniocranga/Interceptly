@@ -17,7 +17,7 @@ import { GlobalStyles } from '@mui/material';
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
-
+    const [notifications, setNotifications] = React.useState(null);
     const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
     const router = useRouter();
     return (

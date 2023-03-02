@@ -64,8 +64,9 @@ export default function StyledMenu({ pages }) {
             </TriggerButton>
             <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                 {pages.map((page, index) => {
-
-                    return page.name == 'space' ? <Box key={'key'} sx={{ height: '1rem' }} /> : (
+                    return page.name == 'space' ? 
+                    <Box key={index} height={1} /> : 
+                    (
                         <MenuItem
                             key={page.name}
                             onClick={createHandleMenuClick(page.path)}

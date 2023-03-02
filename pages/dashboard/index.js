@@ -49,8 +49,6 @@ export default function Dashboard() {
         }}>
             {
                 projects.map((project) => {
-                    console.log(project)
-
                     project = project.project;
                     return <Grid
                         key={project.id}

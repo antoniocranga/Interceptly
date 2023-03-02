@@ -260,15 +260,12 @@ export default function DashboardNavBar({ children }) {
                             <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                                 {settings.map((setting, index) => {
                                     return setting.path == '/logout' && !isAuthenticated ? (
-                                        <Container key="0"></Container>
+                                        <Box key={index}></Box>
                                     ) : (
                                         <MenuItem
                                             key={setting.name}
                                             onClick={createHandleMenuClick(setting.path)}
-                                            sx={{
-                                                mb: index < settings.length - 1 ? '5px' : 0
-                                            }}
-                                        >
+                                            >
                                             {setting.name}
                                         </MenuItem>
                                     );
@@ -313,15 +310,13 @@ export default function DashboardNavBar({ children }) {
                         <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                             {settings.map((setting, index) => {
                                 return setting.path == '/logout' && !isAuthenticated ? (
-                                    <Container key="0"></Container>
+                                    <Box key={index}></Box>
+
                                 ) : (
                                     <MenuItem
                                         key={setting.name}
                                         onClick={createHandleMenuClick(setting.path)}
-                                        sx={{
-                                            mb: index < settings.length - 1 ? '5px' : 0
-                                        }}
-                                    >
+                                         >
                                         {setting.name}
                                     </MenuItem>
                                 );
@@ -351,9 +346,9 @@ export default function DashboardNavBar({ children }) {
                 </DrawerHeader>
 
                 <List>
-                    {drawerItems.map((item) => {
+                    {drawerItems.map((item,index) => {
                         return item.name == 'space' ? (
-                            <Box height={'1rem'} />
+                            <Box height={1} key={index}/>
                         ) : (
                             <ListItem key={item.name} disablePadding sx={{ display: 'block' }}>
                                 <Tooltip key={item.name} title={!isDrawerExpanded ? item.name : null} arrow placement="right">

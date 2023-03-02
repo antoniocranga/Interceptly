@@ -19,7 +19,7 @@ export default function EventCard({ event }) {
         const date = new Date(value);
         return date.toUTCString();
     };
-    return <Stack spacing={2}>
+    return <Stack spacing={2} key={event.id}>
         <Stack direction={"row"}>
             <Chip label={formattedDate(event.createdAt)} icon={<AccessTimeOutlined fontSize="small" />} size="small" />
         </Stack>

@@ -19,6 +19,7 @@ export default function NotificationItemBase({ notification, children }) {
     };
     return (
         <ListItemButton
+            key={notification.id}
             onClick={handleRedirect}
             alignItems="flex-start"
             sx={{

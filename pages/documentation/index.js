@@ -35,7 +35,8 @@ export default function Docs() {
                                 sx={{
                                     ':hover': {
                                         boxShadow: theme.custom.customBoxShadow,
-                                        borderColor: theme.palette.primary.main
+                                        borderColor: theme.palette.primary.main,
+                                        cursor:'pointer'
                                     },
                                     border: '1px solid',
                                     borderColor: grey[300]

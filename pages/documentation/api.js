@@ -271,8 +271,8 @@ export default function Endpoints() {
                                                     }}
                                                 >
                                                     {param.restrictions &&
-                                                        param.restrictions.map((restriction) => (
-                                                            <Typography variant="caption">{restriction}</Typography>
+                                                        param.restrictions.map((restriction,index) => (
+                                                            <Typography key={index} variant="caption">{restriction}</Typography>
                                                         ))}
                                                 </Stack>
                                             </Stack>
@@ -307,8 +307,8 @@ export default function Endpoints() {
                                                     }}
                                                 >
                                                     {body.restrictions &&
-                                                        body.restrictions.map((restriction) => (
-                                                            <Typography variant="caption">{restriction}</Typography>
+                                                        body.restrictions.map((restriction,index) => (
+                                                            <Typography key={index} variant="caption">{restriction}</Typography>
                                                         ))}
                                                 </Stack>
                                             </Stack>

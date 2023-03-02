@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { grey } from '@mui/material/colors';
+import { Grid } from '@mui/material';
 
 function Copyright() {
     return (
@@ -30,9 +31,35 @@ export default function StickyFooter() {
             }}
         >
             <Container maxWidth="md">
-                <Typography variant="body1">My sticky footer can be found here.</Typography>
-                <Copyright />
+                <Grid container display="flex" justifyContent={'center'} spacing={2}>
+                    <Grid item xs={12} display="flex" justifyContent={'center'}>
+                        <Copyright />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container display="flex" justifyContent={'center'} spacing={1}>
+                            <Grid item xs={12} sm={'auto'} display="flex" justifyContent={'center'}>
+                                <Link href="/">Home</Link>
+                            </Grid>
+                            <Grid item xs={12} sm={'auto'} display="flex" justifyContent={'center'}>
+                                <Link href="/documentation">Documentation</Link>
+                            </Grid>
+                            <Grid item xs={12} sm={'auto'} display="flex" justifyContent={'center'}>
+                                <Link href="/about">About</Link>
+                            </Grid>
+                            <Grid item xs={12} sm={'auto'} display="flex" justifyContent={'center'}>
+                                <Link href="/dashboard">Dashboard</Link>
+                            </Grid>
+                            <Grid item xs={12} sm={'auto'} display="flex" justifyContent={'center'}>
+                                <Link href="/login">Login</Link>
+                            </Grid>
+                            <Grid item xs={12} sm={'auto'} display="flex" justifyContent={'center'}>
+                                <Link href="/signup">Signup</Link>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </Container>
         </Box>
     );
 }
+

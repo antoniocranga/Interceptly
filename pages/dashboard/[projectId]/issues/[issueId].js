@@ -1,4 +1,12 @@
-import { AddOutlined, CheckBox, CheckOutlined, GroupAdd, KeyboardArrowDownOutlined, RemoveOutlined } from '@mui/icons-material';
+import {
+    AddOutlined,
+    CheckBox,
+    CheckOutlined,
+    DownloadOutlined,
+    GroupAdd,
+    KeyboardArrowDownOutlined,
+    RemoveOutlined
+} from '@mui/icons-material';
 import {
     Avatar,
     Box,
@@ -207,6 +215,24 @@ export default function Issue() {
             })
             .catch((err) => {});
     };
+    const exportIssue = () => {
+        axios
+            .get(`${Endpoints.export}/events/excel`, {
+                params: {
+                    projectId: projectId,
+                    issueId: issueId
+                },
+                responseType: 'arraybuffer'
+            })
+            .then((data) => {
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(new Blob([data.data]));
+                link.setAttribute('download', `interceptly_events_project${projectId}_issue${issueId}.xlsx`);
+                document.body.appendChild(link);
+                link.click();
+            })
+            .catch((err) => {});
+    };
     return (
         <Box
             sx={{
@@ -270,9 +296,18 @@ export default function Issue() {
                                                 </MenuItem>
                                             ))}
                                         </Menu>
-                                        <IconButton size={'small'} sx={{ ml: '0.5rem' }} onClick={handleCollaborationMenu}>
-                                            <GroupAdd color="disabled" />
-                                        </IconButton>
+                                        <ButtonGroup>
+                                            <Tooltip title="Manage collaborations">
+                                                <IconButton sx={{ ml: '0.5rem' }} onClick={handleCollaborationMenu}>
+                                                    <GroupAdd color="disabled" />
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title="Export all events from this issue as Excel file">
+                                                <IconButton sx={{ ml: '0.5rem' }} onClick={exportIssue}>
+                                                    <DownloadOutlined color="disabled" />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </ButtonGroup>
                                         <Menu
                                             open={isCollaborationMenuOpen}
                                             onClose={closeCollaborationMenu}

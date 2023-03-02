@@ -121,15 +121,13 @@ export default function WebsiteNavBar({ children }) {
                                 <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                                     {settings.map((setting, index) => {
                                         return setting.path == '/logout' && !isAuthenticated ? (
-                                            <Container key="0"></Container>
+                                            <Box key={index}></Box>
+ 
                                         ) : (
                                             <MenuItem
                                                 key={setting.name}
                                                 onClick={createHandleMenuClick(setting.path)}
-                                                sx={{
-                                                    mb: index < settings.length - 1 ? '5px' : 0
-                                                }}
-                                            >
+                                                 >
                                                 {setting.name}
                                             </MenuItem>
                                         );
@@ -167,7 +165,7 @@ export default function WebsiteNavBar({ children }) {
                                 }
                             }}
                         >
-                                                            <NotificationsSection/>
+                            <NotificationsSection />
 
                             <IconButton
                                 onClick={handleButtonClick}
@@ -180,15 +178,12 @@ export default function WebsiteNavBar({ children }) {
                             <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                                 {settings.map((setting, index) => {
                                     return setting.path == '/logout' && !isAuthenticated ? (
-                                        <Container key="0"></Container>
+                                        <Box key={index}></Box>
                                     ) : (
                                         <MenuItem
                                             key={setting.name}
                                             onClick={createHandleMenuClick(setting.path)}
-                                            sx={{
-                                                mb: index < settings.length - 1 ? '5px' : 0
-                                            }}
-                                        >
+                                           >
                                             {setting.name}
                                         </MenuItem>
                                     );

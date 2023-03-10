@@ -95,14 +95,12 @@ export default function Project() {
             setOpen(false);
             setIsLoadingProject(true);
             axios.patch(`${Endpoints.projects}/${projectId}/reset-key`).then((data) => {
-                console.log(data);
                 enqueueSnackbar('API Key regenerated', { variant: 'success', autoHideDuration: 3000 });
                 setProject(data.data);
                 setOpen(false);
                 setIsLoadingProject(false);
                 
             }).catch((err) => {
-                console.log(err);
                 enqueueSnackbar('An error has occured, please try again', { variant: 'error', autoHideDuration: 3000 });
                 setProject({});
                 setOpen(false);
@@ -131,7 +129,6 @@ export default function Project() {
                 setColor(data.project.color);
                 setIsLoadingProject(false);
             }).catch((err) => {
-                console.log(err);
                 enqueueSnackbar('An error has occured, you will be redirected', { variant: 'error', autoHideDuration: 3000 });
                 setProject({});
                 setIsLoadingProject(false);
@@ -271,7 +268,7 @@ export default function Project() {
                                         <Divider orientation="vertical" variant="middle" flexItem sx={{
                                             mx: '0.3rem'
                                         }} />
-                                        <ContentCaption tooltip={"The date when the project was created"}>{new Date(project.project.createdAt).toUTCString()}</ContentCaption>
+                                        <ContentCaption tooltip={"The date when the project was created"}>{new Date(project.project.createdAt + 'Z').toLocaleString()}</ContentCaption>
                                     </Box>
                                 </Stack>
                                 <Divider sx={{

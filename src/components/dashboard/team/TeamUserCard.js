@@ -14,7 +14,7 @@ export default function TeamUserCard(props) {
     const isSmall = useMediaQuery(theme.breakpoints.only('xs'));
 
     const formatedDate = (date) => {
-        return timeago.format(new Date(date));
+        return timeago.format(new Date(date + 'Z'));
     };
     const computeColor = (permission) => {
         switch(permission){
@@ -70,7 +70,7 @@ export default function TeamUserCard(props) {
                             spacing={1}
                         >
                             <Grid item>
-                                <Tooltip placement="top-start" title={new Date(user.createdAt).toUTCString()}>
+                                <Tooltip placement="top-start" title={new Date(user.createdAt + 'Z').toLocaleString()}>
                                     <Typography variant={'caption'}>Added {formatedDate(user.createdAt)}</Typography>
                                 </Tooltip>
                             </Grid>

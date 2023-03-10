@@ -41,6 +41,9 @@ export default function TeamMemberDialog(props) {
             permission: 2
         }
     ];
+    const onChange = (event) => {
+        setController(event.target.value);
+    }
     const changePermission = (event) => {
         setPermission(event.target.value);
     };
@@ -114,6 +117,7 @@ export default function TeamMemberDialog(props) {
                             type="email"
                             disabled={loading || user}
                             value={controller}
+                            onChange={onChange}
                             label="Email"
                         />
                     </Grid>

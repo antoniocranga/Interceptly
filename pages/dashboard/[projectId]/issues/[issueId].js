@@ -90,7 +90,6 @@ export default function Issue() {
     // };
 
     const updateStatus = (status) => () => {
-        console.log(status);
         axios
             .patch(`${Endpoints.projects}/${projectId}/issues`, {
                 ids: [issueId],
@@ -101,7 +100,6 @@ export default function Issue() {
                 router.reload();
             })
             .catch((err) => {
-                console.log(err);
             });
     };
 
@@ -114,7 +112,8 @@ export default function Issue() {
         setSize(event.target.value);
     };
     const formatedDate = (date) => {
-        return new Date(date).toUTCString();
+        date = date+'Z';
+        return new Date(date).toLocaleString();
     };
     const actions = [
         {
@@ -162,7 +161,6 @@ export default function Issue() {
                 setIsLoading(false);
             })
             .catch((err) => {
-                console.log(err);
                 // router.reload();
                 // setIsLoading(false);
             });
@@ -174,7 +172,6 @@ export default function Issue() {
                 setPermissionsFilter(data);
             })
             .catch((err) => {
-                console.log(err);
                 // router.reload();
             });
     }, [pagination, projectId, issueId]);

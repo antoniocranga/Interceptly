@@ -25,7 +25,7 @@ export default function IssueCollaborationNotification({ notification }) {
             <Stack>
                 {formatMessage(notification.message)}
                 <Typography variant="caption" color={grey[600]}>
-                    {timeago.format(new Date(notification.createdAt))}
+                    {timeago.format(new Date(notification.createdAt +'Z'))}
                 </Typography>
             </Stack>
         </NotificationItemBase>

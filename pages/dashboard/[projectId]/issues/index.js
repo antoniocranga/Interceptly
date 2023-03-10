@@ -279,7 +279,6 @@ export default function Issues() {
             setPage(data.pageable.pageNumber);
             setSize(data.pageable.pageSize);
         }).then((err) => {
-            console.log(err);
         });
     }, [range, status, sortBy, direction, projectId, controller, size, page]);
 
@@ -313,7 +312,6 @@ export default function Issues() {
     };
     const [value, setValue] = useState('');
     const handleTagInput = (tag, input) => {
-        console.log(tag, input);
         setValue(input);
     };
 
@@ -336,7 +334,7 @@ export default function Issues() {
             setAnchorEl(null);
             setChecked([]);
             router.reload();
-        }).catch((err) => { console.log(err); });
+        }).catch((err) => {});
     }
     const [isLoading, setIsLoading] = useState(true);
     return (

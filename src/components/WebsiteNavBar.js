@@ -39,6 +39,9 @@ export default function WebsiteNavBar({ children }) {
     ];
     const settings = [
         {
+            name: '@userEmail'
+        },
+        {
             name: 'Dashboard',
             path: '/dashboard'
         },
@@ -52,7 +55,7 @@ export default function WebsiteNavBar({ children }) {
         }
     ];
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const { logout, isAuthenticated } = useAppContext();
+    const { logout, isAuthenticated,appState } = useAppContext();
     const isOpen = Boolean(anchorEl);
     const router = useRouter();
     const handleButtonClick = (event) => {
@@ -120,6 +123,14 @@ export default function WebsiteNavBar({ children }) {
                                 </IconButton>
                                 <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                                     {settings.map((setting, index) => {
+                                        if(setting.name == '@userEmail'){
+                                            return (
+                                            <MenuItem key={"userEmail"}>
+                                                <Typography variant="body2">
+                                                {appState.user.email}
+                                                </Typography>
+                                            </MenuItem>);
+                                        }else {
                                         return setting.path == '/logout' && !isAuthenticated ? (
                                             <Box key={index}></Box>
  
@@ -130,7 +141,7 @@ export default function WebsiteNavBar({ children }) {
                                                  >
                                                 {setting.name}
                                             </MenuItem>
-                                        );
+                                        );}
                                     })}
                                 </Menu>
                             </Grid>
@@ -177,6 +188,13 @@ export default function WebsiteNavBar({ children }) {
                             </IconButton>
                             <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                                 {settings.map((setting, index) => {
+                                    if(setting.name == '@userEmail'){
+                                        return (<MenuItem key={"userEmail"} disabled>
+                                            <Typography variant="body2">
+                                                {appState.user.email}
+                                                </Typography>
+                                            </MenuItem>);
+                                    }else {
                                     return setting.path == '/logout' && !isAuthenticated ? (
                                         <Box key={index}></Box>
                                     ) : (
@@ -186,7 +204,7 @@ export default function WebsiteNavBar({ children }) {
                                            >
                                             {setting.name}
                                         </MenuItem>
-                                    );
+                                    );}
                                 })}
                             </Menu>
                         </Box>

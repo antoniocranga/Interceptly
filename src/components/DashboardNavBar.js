@@ -59,6 +59,9 @@ export default function DashboardNavBar({ children }) {
     const drawerWidth = 180;
     const settings = [
         {
+            name: '@userEmail'
+        },
+        {
             name: 'Dashboard',
             path: '/dashboard'
         },
@@ -129,7 +132,7 @@ export default function DashboardNavBar({ children }) {
 
     const [isDrawerExpanded, setIsDrawerExpanded] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const { logout, isAuthenticated } = useAppContext();
+    const { logout, isAuthenticated,appState } = useAppContext();
     const isOpen = Boolean(anchorEl);
 
     const handleExpand = () => {
@@ -259,6 +262,14 @@ export default function DashboardNavBar({ children }) {
                             </IconButton>
                             <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                                 {settings.map((setting, index) => {
+                                    if(setting.name == '@userEmail'){
+                                        return (<MenuItem key={"userEmail"}>
+                                            <Typography variant="body2">
+                                                {appState.user.email}
+                                                </Typography>
+                                            </MenuItem>);
+                                    }
+                                    else {
                                     return setting.path == '/logout' && !isAuthenticated ? (
                                         <Box key={index}></Box>
                                     ) : (
@@ -269,6 +280,7 @@ export default function DashboardNavBar({ children }) {
                                             {setting.name}
                                         </MenuItem>
                                     );
+                                }
                                 })}
                             </Menu>
                         </Grid>
@@ -309,6 +321,14 @@ export default function DashboardNavBar({ children }) {
                         </IconButton>
                         <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                             {settings.map((setting, index) => {
+                                if(setting.name == '@userEmail'){
+                                    return (<MenuItem key={"userEmail"}>
+                                        <Typography variant="body2">
+                                                {appState.user.email}
+                                                </Typography>
+                                        </MenuItem>);
+                                }
+                                else {
                                 return setting.path == '/logout' && !isAuthenticated ? (
                                     <Box key={index}></Box>
 
@@ -319,7 +339,7 @@ export default function DashboardNavBar({ children }) {
                                          >
                                         {setting.name}
                                     </MenuItem>
-                                );
+                                );}
                             })}
                         </Menu>
                     </Box>

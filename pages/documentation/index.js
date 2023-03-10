@@ -28,7 +28,7 @@ export default function Docs() {
             <Grid container spacing={2} sx={{ mt: '1rem' }}>
                 {items.map((item, index) => {
                     return (
-                        <Grid item key={item.label} xs={12}>
+                        <Grid item key={index} xs={12}>
                             <Card
                                 onClick={handleRoute(item.path)}
                                 elevation={0}

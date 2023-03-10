@@ -4,7 +4,6 @@ import { Stack } from "@mui/system";
 
 export default function IssueCardSkeleton(props) {
     const { index, length } = props;
-    console.log(index);
     return (<ListItem
         key={index}
         sx={{

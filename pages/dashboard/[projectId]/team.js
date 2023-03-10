@@ -49,7 +49,6 @@ export default function Team() {
                     setIsLoading(false);
                 })
                 .catch((err) => {
-                    console.log(err);
                     setFilteredTeam([]);
                     setIsLoading(false);
                 });

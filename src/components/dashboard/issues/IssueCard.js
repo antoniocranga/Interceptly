@@ -12,10 +12,11 @@ export default function IssueCard(props) {
     const labelId = `checkbox-list-secondary-label-${issue.id}`;
     const isSmall = useMediaQuery(theme.breakpoints.only('xs'))
     const formatedDate = (date) => {
+        date = date+'Z';
         if (isSmall) {
-            return new Date(date).toDateString();
+            return new Date(date).toLocaleString();
         } else {
-            return new Date(date).toUTCString();
+            return new Date(date).toLocaleString();
         }
     };
     return (
@@ -103,7 +104,7 @@ export default function IssueCard(props) {
                             px: '1rem',
                             borderRadius: '100px',
                             fontWeight: '500',
-                        }}>{timeago.format(new Date(issue.lastSeen))}</Typography>
+                        }}>{timeago.format(new Date(issue.lastSeen + " UTC"))}</Typography>
                     </Tooltip>
                 </Stack>
             </Stack>

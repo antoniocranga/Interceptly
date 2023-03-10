@@ -16,8 +16,8 @@ export default function EventCard({ event }) {
         browserType: <WebOutlined fontSize="small" />,
     };
     const formattedDate = (value) => {
-        const date = new Date(value);
-        return date.toUTCString();
+        const date = new Date(value + 'Z');
+        return date.toLocaleString();
     };
     return <Stack spacing={2} key={event.id}>
         <Stack direction={"row"}>

@@ -1,11 +1,15 @@
 export default class Endpoints {
-    static baseUrl = "http://localhost:8080";
-    static login = "/login";
-    static register = "/register";
-    static users = "/users";
-    static projects = "/projects";
-    static comments = "/comments";
-    static notifications = "/notifications";
-    static export = "/export";
-    static stats = "/stats";
+    static baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    static dashboard = "/dashboard";
+    static auth = "/auth";
+    static login = Endpoints.auth + "/login";
+    static register = Endpoints.auth + "/register";
+    static users = Endpoints.dashboard + "/users";
+    static projects = Endpoints.dashboard + "/projects";
+    static comments = Endpoints.dashboard + "/comments";
+    static notifications = Endpoints.dashboard + "/notifications";
+    static export = Endpoints.dashboard + "/export";
+    static stats = Endpoints.dashboard + "/stats";
+
+    static webSocketsUrl = Endpoints.baseUrl + Endpoints.dashboard + "/ws";
 }

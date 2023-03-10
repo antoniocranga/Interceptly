@@ -484,7 +484,6 @@ export default function Statistics() {
                 range: range,
             }
         }).then((data) => {
-            console.log(data.data);
             setData(data.data);
             setIsLoading(false);
         }).then((err) => {

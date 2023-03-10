@@ -6,7 +6,6 @@ import qs from 'qs';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
 import { StompSessionProvider, useSubscription } from 'react-stomp-hooks';
-import SubscribingComponent from './SubscribingComponent';
 
 const AppContext = createContext();
 
@@ -28,17 +27,15 @@ export function AppWrapper({ children }) {
         axios
             .get(`${Endpoints.notifications}`)
             .then((data) => {
-                console.log(data.data);
                 setNotifications(data.data)
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {});
     };
 
     const checkStatus = async () => {
         axios
             .get(Endpoints.users)
             .then((res) => {
-                console.log(res);
                 setAppState({
                     ...appState,
                     statusChecked: true,
@@ -53,7 +50,6 @@ export function AppWrapper({ children }) {
                     localStorage.removeItem('jwt');
                     delete axios.defaults.headers['Authorization'];
                 }
-                console.log(err);
                 setAppState({
                     ...appState,
                     statusChecked: true,
@@ -65,12 +61,10 @@ export function AppWrapper({ children }) {
     };
 
     const login = (email, password) => {
-        console.log(email, password);
         setIsLoading(true);
         axios
             .post(Endpoints.login, qs.stringify({ email: email, password: password }))
             .then((res) => {
-                console.log(res);
                 setAppState({
                     ...appState,
                     statusChecked: true,
@@ -78,10 +72,11 @@ export function AppWrapper({ children }) {
                 });
                 localStorage.setItem('jwt', res.data.jwt);
                 axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`;
+                fetchNotifications();
+                openSocket();
                 setIsLoading(false);
             })
             .catch((err) => {
-                console.log(err);
                 enqueueSnackbar('Please check your credentials!', {
                     variant: 'error',
                     autoHideDuration: 3000
@@ -91,7 +86,6 @@ export function AppWrapper({ children }) {
                     statusChecked: true,
                     user: null
                 });
-                fetchNotifications();
                 setIsLoading(false);
             });
     };
@@ -110,6 +104,8 @@ export function AppWrapper({ children }) {
                 });
                 localStorage.setItem('jwt', res.data.jwt);
                 axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`;
+                fetchNotifications();
+                openSocket();
             })
             .catch((err) => {
                 switch (err.response.status) {
@@ -150,10 +146,9 @@ export function AppWrapper({ children }) {
         const headers = {
             "Authorization": "Bearer " + localStorage.getItem('jwt')
         }
-        socket = new SockJS('http://localhost:8080/ws')
+        socket = new SockJS(Endpoints.webSocketsUrl)
         privateStompClient = Stomp.over(socket);
         privateStompClient.connect(headers, function(frame){
-            console.log(frame);
             privateStompClient.subscribe('/user/specific', function (result) {
                 setNotifications((prev) => [JSON.parse(result.body),...prev]);
             });
@@ -167,19 +162,17 @@ export function AppWrapper({ children }) {
         }
         axios.interceptors.response.use(
             (response) => {
-                console.log('response >', response);
                 return response;
             },
             (error) => {
                 const { config, response } = error;
-                if (response && response?.status === 401) {
-                    router.push('/');
-                }
                 if (response) {
-                    if (response?.status === 401) {
-                        router.push('/');
-                    } else if (response?.status === 403) {
-                        router.push('/dashboard');
+                    if(router.pathname.includes("/dashboard")){
+                        if (response?.status === 401) {
+                            router.push('/');
+                        } else if (response?.status === 403) {
+                            router.push('/dashboard');
+                        }
                     }
                 }
                 //   if (response && response?.status === 401) {

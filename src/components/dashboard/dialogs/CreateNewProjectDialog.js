@@ -56,11 +56,9 @@ export default function CreateNewProjectDialog(props) {
             description: controller.description,
             color: color,
         }).then((res) => {
-            console.log(res);
             handleOnClose();
             router.reload(router.pathname);
         }).catch((err) => {
-            console.log(err);
             setLoading(false);
             enqueueSnackbar('Please try again', { variant: 'error' })
         });

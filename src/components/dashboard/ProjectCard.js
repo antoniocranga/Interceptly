@@ -13,7 +13,7 @@ export default function ProjectCard({ props }) {
         router.push(projectPath);
     };
     const formatedDate = () => {
-        return timeago.format(new Date(createdAt));
+        return timeago.format(new Date(createdAt + 'Z'));
     };
     return (
         <Card
@@ -51,7 +51,7 @@ export default function ProjectCard({ props }) {
                         color: grey[400],
                         mx: '0.2rem'
                     }}>•</Typography>
-                    <Tooltip title={new Date(createdAt).toUTCString()}><Typography
+                    <Tooltip title={new Date(createdAt + 'Z').toLocaleString()}><Typography
                         variant="caption"
                         sx={{
                             color: grey[400]

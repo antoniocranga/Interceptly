@@ -58,7 +58,7 @@ export default function CommentsSection(props) {
     });
 
     const formattedDate = (date) => {
-        return timeago.format(new Date(date));
+        return timeago.format(new Date(date + 'Z'));
     };
 
     const { appState } = useAppContext();
@@ -78,7 +78,6 @@ export default function CommentsSection(props) {
             .catch((err) => {});
     };
     const deleteComment = (id) => () => {
-        console.log(id);
         axios
             .delete(`${Endpoints.comments}`, {
                 data: {

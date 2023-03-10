@@ -51,7 +51,6 @@ function stableSort(array, comparator) {
         }
         return a[1] - b[1];
     });
-    console.log(stabilizedThis);
     return stabilizedThis.map((el) => el[0]);
 }
 
@@ -64,7 +63,6 @@ export default function EnhancedTable() {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     const handleRequestSort = (event, property) => {
-        console.log(property);
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);

@@ -55,7 +55,7 @@ export default function WebsiteNavBar({ children }) {
         }
     ];
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const { logout, isAuthenticated,appState } = useAppContext();
+    const { logout, isAuthenticated, appState } = useAppContext();
     const isOpen = Boolean(anchorEl);
     const router = useRouter();
     const handleButtonClick = (event) => {
@@ -123,25 +123,23 @@ export default function WebsiteNavBar({ children }) {
                                 </IconButton>
                                 <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                                     {settings.map((setting, index) => {
-                                        if(setting.name == '@userEmail'){
-                                            return (
-                                            <MenuItem key={"userEmail"}>
-                                                <Typography variant="body2">
-                                                {appState.user.email}
-                                                </Typography>
-                                            </MenuItem>);
-                                        }else {
-                                        return setting.path == '/logout' && !isAuthenticated ? (
-                                            <Box key={index}></Box>
- 
-                                        ) : (
-                                            <MenuItem
-                                                key={setting.name}
-                                                onClick={createHandleMenuClick(setting.path)}
-                                                 >
-                                                {setting.name}
-                                            </MenuItem>
-                                        );}
+                                        if (setting.name == '@userEmail') {
+                                            if (isAuthenticated) {
+                                                return (
+                                                    <MenuItem key={'userEmail'}>
+                                                        <Typography variant="body2">{appState.user.email}</Typography>
+                                                    </MenuItem>
+                                                );
+                                            }
+                                        } else {
+                                            return setting.path == '/logout' && !isAuthenticated ? (
+                                                <Box key={index}></Box>
+                                            ) : (
+                                                <MenuItem key={setting.name} onClick={createHandleMenuClick(setting.path)}>
+                                                    {setting.name}
+                                                </MenuItem>
+                                            );
+                                        }
                                     })}
                                 </Menu>
                             </Grid>
@@ -188,23 +186,23 @@ export default function WebsiteNavBar({ children }) {
                             </IconButton>
                             <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                                 {settings.map((setting, index) => {
-                                    if(setting.name == '@userEmail'){
-                                        return (<MenuItem key={"userEmail"} disabled>
-                                            <Typography variant="body2">
-                                                {appState.user.email}
-                                                </Typography>
-                                            </MenuItem>);
-                                    }else {
-                                    return setting.path == '/logout' && !isAuthenticated ? (
-                                        <Box key={index}></Box>
-                                    ) : (
-                                        <MenuItem
-                                            key={setting.name}
-                                            onClick={createHandleMenuClick(setting.path)}
-                                           >
-                                            {setting.name}
-                                        </MenuItem>
-                                    );}
+                                    if (setting.name == '@userEmail') {
+                                        if (isAuthenticated) {
+                                            return (
+                                                <MenuItem key={'userEmail'} disabled>
+                                                    <Typography variant="body2">{appState.user.email}</Typography>
+                                                </MenuItem>
+                                            );
+                                        }
+                                    } else {
+                                        return setting.path == '/logout' && !isAuthenticated ? (
+                                            <Box key={index}></Box>
+                                        ) : (
+                                            <MenuItem key={setting.name} onClick={createHandleMenuClick(setting.path)}>
+                                                {setting.name}
+                                            </MenuItem>
+                                        );
+                                    }
                                 })}
                             </Menu>
                         </Box>

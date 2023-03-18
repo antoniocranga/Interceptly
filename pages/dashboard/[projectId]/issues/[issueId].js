@@ -359,7 +359,7 @@ export default function Issue() {
                                                         You don't have permissions to assign issues.
                                                     </Typography>
                                                 )}
-                                                {permissionsFilter.slice(0, 5).map((user,index) => (
+                                                {permissionsFilter.slice(0, 5).map((user, index) => (
                                                     <ListItem
                                                         disablePadding
                                                         key={index}

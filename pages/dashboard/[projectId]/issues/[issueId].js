@@ -347,7 +347,7 @@ export default function Issue() {
                                                 }}
                                             >
                                                 {(collaborators.find((collab) => (collab.userId = appState.user.id)).permission !=
-                                                    'OWNER' ||
+                                                    'OWNER' &&
                                                     collaborators.find((collab) => (collab.userId = appState.user.id)).permission !=
                                                         'ADMIN') && (
                                                     <Typography
@@ -374,7 +374,7 @@ export default function Issue() {
                                                         <ListItemButton
                                                             disabled={
                                                                 collaborators.find((collab) => (collab.userId = appState.user.id))
-                                                                    .permission != 'OWNER' ||
+                                                                    .permission != 'OWNER' &&
                                                                 collaborators.find((collab) => (collab.userId = appState.user.id))
                                                                     .permission != 'ADMIN'
                                                             }

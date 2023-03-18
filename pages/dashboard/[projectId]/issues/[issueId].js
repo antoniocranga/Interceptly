@@ -346,10 +346,11 @@ export default function Issue() {
                                                     mt: '1rem'
                                                 }}
                                             >
-                                                {(collaborators.find((collab) => (collab.userId = appState.user.id)).permission !=
-                                                    'OWNER' &&
-                                                    collaborators.find((collab) => (collab.userId = appState.user.id)).permission !=
-                                                        'ADMIN') && (
+                                                {!(
+                                                    permissions.find((collab) => (collab.userId = appState.user.id)).permission ==
+                                                        'OWNER' ||
+                                                    permissions.find((collab) => (collab.userId = appState.user.id)).permission == 'ADMIN'
+                                                ) && (
                                                     <Typography
                                                         variant="caption"
                                                         sx={{
@@ -373,10 +374,12 @@ export default function Issue() {
                                                     >
                                                         <ListItemButton
                                                             disabled={
-                                                                collaborators.find((collab) => (collab.userId = appState.user.id))
-                                                                    .permission != 'OWNER' &&
-                                                                collaborators.find((collab) => (collab.userId = appState.user.id))
-                                                                    .permission != 'ADMIN'
+                                                                !(
+                                                                    permissions.find((collab) => (collab.userId = appState.user.id))
+                                                                        .permission == 'OWNER' ||
+                                                                    permissions.find((collab) => (collab.userId = appState.user.id))
+                                                                        .permission == 'ADMIN'
+                                                                )
                                                             }
                                                             selected={collaborators.find((collab) => collab.userId == user.id)}
                                                             sx={{

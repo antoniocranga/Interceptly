@@ -159,6 +159,7 @@ export default function Issue() {
                 setCollaborators(data.collaborators);
                 setComments(data.comments);
                 setIsLoading(false);
+                
             })
             .catch((err) => {
                 // router.reload();
@@ -348,9 +349,9 @@ export default function Issue() {
                                                     mt: '1rem'
                                                 }}
                                             >
-                                                {(collaborators.find((collab) => (collab.userId = appState.user.id))
+                                                {!(permissions.find((collab) => (collab.userId = appState.user.id))
                                                                 .permission == 'OWNER' ||
-                                                            collaborators.find((collab) => (collab.userId = appState.user.id))
+                                                            permissions.find((collab) => (collab.userId = appState.user.id))
                                                                 .permission == 'ADMIN') && (
                                                     <Typography
                                                         variant="caption"
@@ -375,9 +376,9 @@ export default function Issue() {
                                                     >
                                                         <ListItemButton
                                                             disabled={
-                                                                (collaborators.find((collab) => (collab.userId = appState.user.id))
+                                                                !(permissions.find((collab) => (collab.userId = appState.user.id))
                                                                 .permission == 'OWNER' ||
-                                                            collaborators.find((collab) => (collab.userId = appState.user.id))
+                                                            permissions.find((collab) => (collab.userId = appState.user.id))
                                                                 .permission == 'ADMIN')
                                                             }
                                                             selected={collaborators.find((collab) => collab.userId == user.id)}

@@ -37,10 +37,10 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Endpoints from '../../../../src/api/endpoints';
-import TeamMemberDialog from '../../../../src/components/dashboard/dialogs/TeamMemberDialog';
 import CommentsSection from '../../../../src/components/dashboard/issues/CommentsSection';
 import EventCard from '../../../../src/components/dashboard/issues/events/EventCard';
 import theme from '../../../../src/theme';
+import { useAppContext } from '../../../../src/utils/AppContext';
 
 export default function Issue() {
     const router = useRouter();
@@ -70,6 +70,7 @@ export default function Issue() {
     const [collaborators, setCollaborators] = useState([]);
     const [collaborationAnchorEl, setCollaborationAnchorEl] = useState(null);
     const isCollaborationMenuOpen = Boolean(collaborationAnchorEl);
+    const { appState } = useAppContext();
     const [comments, setComments] = useState([]);
     const handleCollaborationMenu = (event) => {
         if (isCollaborationMenuOpen) {
@@ -99,8 +100,7 @@ export default function Issue() {
                 setAnchorEl(null);
                 router.reload();
             })
-            .catch((err) => {
-            });
+            .catch((err) => {});
     };
 
     const changePage = (event, newPage) => {
@@ -112,7 +112,7 @@ export default function Issue() {
         setSize(event.target.value);
     };
     const formatedDate = (date) => {
-        date = date+'Z';
+        date = date + 'Z';
         return new Date(date).toLocaleString();
     };
     const actions = [
@@ -346,35 +346,52 @@ export default function Issue() {
                                                     mt: '1rem'
                                                 }}
                                             >
-                                                {permissionsFilter.slice(0, 5).map((user) => {
-                                                    return (
-                                                        <ListItem
-                                                            disablePadding
-                                                            key={user.id}
-                                                            secondaryAction={
-                                                                !collaborators.find((collab) => collab.userId == user.id) ? (
-                                                                    <AddOutlined fontSize="small" color="primary" />
-                                                                ) : (
-                                                                    <RemoveOutlined fontSize="small" color="error" />
-                                                                )
+                                                {(collaborators.find((collab) => (collab.userId = appState.user.id)).permission !=
+                                                    'OWNER' ||
+                                                    collaborators.find((collab) => (collab.userId = appState.user.id)).permission !=
+                                                        'ADMIN') && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            ml: '1rem'
+                                                        }}
+                                                    >
+                                                        You don't have permissions to assign issues.
+                                                    </Typography>
+                                                )}
+                                                {permissionsFilter.slice(0, 5).map((user,index) => (
+                                                    <ListItem
+                                                        disablePadding
+                                                        key={index}
+                                                        secondaryAction={
+                                                            !collaborators.find((collab) => collab.userId == user.id) ? (
+                                                                <AddOutlined fontSize="small" color="primary" />
+                                                            ) : (
+                                                                <RemoveOutlined fontSize="small" color="error" />
+                                                            )
+                                                        }
+                                                    >
+                                                        <ListItemButton
+                                                            disabled={
+                                                                collaborators.find((collab) => (collab.userId = appState.user.id))
+                                                                    .permission != 'OWNER' ||
+                                                                collaborators.find((collab) => (collab.userId = appState.user.id))
+                                                                    .permission != 'ADMIN'
+                                                            }
+                                                            selected={collaborators.find((collab) => collab.userId == user.id)}
+                                                            sx={{
+                                                                borderRadius: '8px'
+                                                            }}
+                                                            onClick={
+                                                                collaborators.find((collab) => collab.userId == user.id)
+                                                                    ? removeCollaborator(user)
+                                                                    : addCollaborator(user)
                                                             }
                                                         >
-                                                            <ListItemButton
-                                                                selected={collaborators.find((collab) => collab.userId == user.id)}
-                                                                sx={{
-                                                                    borderRadius: '8px'
-                                                                }}
-                                                                onClick={
-                                                                    collaborators.find((collab) => collab.userId == user.id)
-                                                                        ? removeCollaborator(user)
-                                                                        : addCollaborator(user)
-                                                                }
-                                                            >
-                                                                <ListItemText primary={user.email} />
-                                                            </ListItemButton>
-                                                        </ListItem>
-                                                    );
-                                                })}
+                                                            <ListItemText primary={user.email} />
+                                                        </ListItemButton>
+                                                    </ListItem>
+                                                ))}
                                             </List>
                                         </Menu>
                                     </Grid>
@@ -388,18 +405,16 @@ export default function Issue() {
                                         }}
                                     >
                                         {collaborators &&
-                                            collaborators.map((collaborator) => {
-                                                return (
-                                                    <Grid item key={collaborator.id}>
-                                                        <Chip
-                                                            variant="outlined"
-                                                            color="info"
-                                                            avatar={<Avatar>{collaborator.email[0]}</Avatar>}
-                                                            label={collaborator.email.split('@')[0]}
-                                                        ></Chip>
-                                                    </Grid>
-                                                );
-                                            })}
+                                            collaborators.map((collaborator) => (
+                                                <Grid key={collaborator.id} item>
+                                                    <Chip
+                                                        variant="outlined"
+                                                        color="info"
+                                                        avatar={<Avatar>{collaborator.email[0]}</Avatar>}
+                                                        label={collaborator.email.split('@')[0]}
+                                                    ></Chip>
+                                                </Grid>
+                                            ))}
                                     </Grid>
                                     <Stack direction={'row'} spacing={1}>
                                         <Typography variant="body2">Issue Id: </Typography>

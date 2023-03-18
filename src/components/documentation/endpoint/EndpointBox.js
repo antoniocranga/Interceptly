@@ -1,7 +1,5 @@
-import { Box } from "@mui/system";
+import { Box } from '@mui/system';
 
-export default function EndpointBox(){
-    return <Box>
-        
-    </Box>
+export default function EndpointBox() {
+    return <Box></Box>;
 }

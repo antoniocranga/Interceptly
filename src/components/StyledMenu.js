@@ -51,7 +51,6 @@ export default function StyledMenu({ pages }) {
         };
     };
     return (
-
         <>
             <TriggerButton
                 type="button"
@@ -64,9 +63,9 @@ export default function StyledMenu({ pages }) {
             </TriggerButton>
             <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                 {pages.map((page, index) => {
-                    return page.name == 'space' ? 
-                    <Box key={index} height={1} /> : 
-                    (
+                    return page.name == 'space' ? (
+                        <Box key={index} height={'1rem'} />
+                    ) : (
                         <MenuItem
                             key={page.name}
                             onClick={createHandleMenuClick(page.path)}
@@ -77,7 +76,7 @@ export default function StyledMenu({ pages }) {
                         >
                             {page.name}
                         </MenuItem>
-                    )
+                    );
                 })}
             </Menu>
         </>

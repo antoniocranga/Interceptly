@@ -126,7 +126,7 @@ export default function WebsiteNavBar({ children }) {
                                         if (setting.name == '@userEmail') {
                                             if (isAuthenticated) {
                                                 return (
-                                                    <MenuItem key={'userEmail'}>
+                                                    <MenuItem key={'userEmail'} disabled>
                                                         <Typography variant="body2">{appState.user.email}</Typography>
                                                     </MenuItem>
                                                 );
@@ -174,7 +174,7 @@ export default function WebsiteNavBar({ children }) {
                                 }
                             }}
                         >
-                            <NotificationsSection />
+                            <NotificationsSection/>
 
                             <IconButton
                                 onClick={handleButtonClick}

@@ -1,53 +1,34 @@
-import { OptionUnstyled, SelectUnstyled } from '@mui/base';
-import { ArrowDownwardOutlined, ChangeHistory, CheckBox, CheckOutlined, KeyboardArrowDownOutlined, SearchOffOutlined, SearchOutlined } from '@mui/icons-material';
+import { CheckOutlined, KeyboardArrowDownOutlined } from '@mui/icons-material';
 import {
-    Autocomplete,
     Button,
     ButtonGroup,
     Checkbox,
     Container,
-    Divider,
-    FormControl,
     Grid,
-    IconButton,
-    InputAdornment,
     InputLabel,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemSecondaryAction,
-    ListItemText,
-    ListSubheader,
     Menu,
     MenuItem,
-    OutlinedInput,
     Select,
     Stack,
     TablePagination,
     TextField,
     Tooltip,
-    Typography
+    Typography,
+    FormControl,
+    List,
+    ListItem
 } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import { Box } from '@mui/system';
 import axios from 'axios';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { use, useEffect, useState } from 'react';
-import { FixedSizeList } from 'react-window';
+import { useEffect, useState } from 'react';
 import IssueCard from '../../../../src/components/dashboard/issues/IssueCard';
 import IssueCardSkeleton from '../../../../src/components/dashboard/skeletons/IssueCardSkeleton';
-import theme from '../../../../src/theme';
 import Endpoints from '../../../../src/api/endpoints';
-
-import { makeStyles } from '@material-ui/core/styles';
-import Chip from '@material-ui/core/Chip';
 import NoIssuesCard from '../../../../src/components/dashboard/issues/NoIssuesCard';
 
 export default function Issues() {
-
-
     const router = useRouter();
     const [range, setRange] = useState(14);
     const [status, setStatus] = useState('active');
@@ -70,21 +51,21 @@ export default function Issues() {
     const changeSortBy = (event) => {
         setPage(0);
         setSortBy(event.target.value);
-    }
+    };
 
     const changeDirection = (event) => {
         setPage(0);
         setDirection(event.target.value);
-    }
+    };
 
     const changePage = (event, newPage) => {
         setPage(newPage);
-    }
+    };
 
     const changeSize = (event) => {
         setPage(0);
         setSize(event.target.value);
-    }
+    };
     const selects = [
         {
             tooltip: 'Status',
@@ -174,7 +155,7 @@ export default function Issues() {
                     label: 'Events count',
                     value: 'eventsCount'
                 }
-            ],
+            ]
         },
         {
             tooltip: 'Sorting direction',
@@ -191,8 +172,8 @@ export default function Issues() {
                 {
                     label: 'Ascending',
                     value: 'asc'
-                },
-            ],
+                }
+            ]
         }
     ];
 
@@ -200,43 +181,35 @@ export default function Issues() {
         {
             label: 'Ignore',
             description: '',
-            value: 'IGNORED',
+            value: 'IGNORED'
         },
         {
             label: 'Block',
             description: '',
-            value: 'BLOCKED',
+            value: 'BLOCKED'
         },
         {
             label: 'Active',
             description: '',
-            value: 'ACTIVE',
-        },
+            value: 'ACTIVE'
+        }
     ];
 
     const skeletons = {
         content: [
             {
-                "id": 1,
+                id: 1
             },
             {
-                "id": 2,
+                id: 2
             },
             {
-                "id": 3,
-            },
+                id: 3
+            }
         ],
         numberOfElements: 3
     };
 
-    const options = [
-        {
-            value: "type"
-        },
-        {
-            value: "title"
-        }
-    ];
     const [issues, setIssues] = useState(skeletons);
     const handleChangeController = (event) => {
         setController(event.target.value);
@@ -251,7 +224,7 @@ export default function Issues() {
                 sortBy: sortBy,
                 direction: direction,
                 size: size,
-                page: page,
+                page: page
             }
         });
     };
@@ -262,24 +235,26 @@ export default function Issues() {
         }
         setIsLoading(true);
         handleChanges();
-        axios.get(`${Endpoints.projects}/${projectId}/issues`, {
-            params: {
-                range: range,
-                status: status,
-                sortBy: sortBy,
-                direction: direction,
-                size: size,
-                page: page,
-                type: controller,
-            }
-        }).then((data) => {
-            data = data.data;
-            setIsLoading(false);
-            setIssues(data);
-            setPage(data.pageable.pageNumber);
-            setSize(data.pageable.pageSize);
-        }).then((err) => {
-        });
+        axios
+            .get(`${Endpoints.projects}/${projectId}/issues`, {
+                params: {
+                    range: range,
+                    status: status,
+                    sortBy: sortBy,
+                    direction: direction,
+                    size: size,
+                    page: page,
+                    type: controller
+                }
+            })
+            .then((data) => {
+                data = data.data;
+                setIsLoading(false);
+                setIssues(data);
+                setPage(data.pageable.pageNumber);
+                setSize(data.pageable.pageSize);
+            })
+            .then((err) => {});
     }, [range, status, sortBy, direction, projectId, controller, size, page]);
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -287,11 +262,10 @@ export default function Issues() {
     const handleButtonDropdown = (event) => {
         if (isOpen) {
             setAnchorEl(null);
-        }
-        else {
+        } else {
             setAnchorEl(event.currentTarget);
         }
-    }
+    };
     const close = () => {
         setAnchorEl(null);
     };
@@ -320,28 +294,33 @@ export default function Issues() {
             setChecked([]);
         } else {
             const ids = [];
-            issues.content.forEach(issue => ids.push(issue.id));
+            issues.content.forEach((issue) => ids.push(issue.id));
             setChecked(ids);
         }
         setAllChecked(!allChecked);
     };
 
     const updateStatus = (status) => () => {
-        axios.patch(`${Endpoints.projects}/${projectId}/issues`, {
-            ids: checked,
-            status: status
-        }).then((data) => {
-            setAnchorEl(null);
-            setChecked([]);
-            router.reload();
-        }).catch((err) => {});
-    }
+        axios
+            .patch(`${Endpoints.projects}/${projectId}/issues`, {
+                ids: checked,
+                status: status
+            })
+            .then((data) => {
+                setAnchorEl(null);
+                setChecked([]);
+                router.reload();
+            })
+            .catch((err) => {});
+    };
     const [isLoading, setIsLoading] = useState(true);
     return (
-        <Box sx={{
-            backgroundColor: grey[50],
-            py: '1rem'
-        }}>
+        <Box
+            sx={{
+                backgroundColor: grey[50],
+                py: '1rem'
+            }}
+        >
             <Container>
                 <Typography
                     variant="h6"
@@ -396,22 +375,24 @@ export default function Issues() {
                         size="small"
                         sx={{
                             mt: '1rem',
-                            backgroundColor: "white",
+                            backgroundColor: 'white',
                             borderRadius: '8px',
                             ':root': {
                                 backgroundColor: 'red'
                             }
-
                         }}
                         required
                         type="text"
-                        placeholder='Search for issues by type'
+                        placeholder="Search for issues by type"
                     />
                 </Tooltip>
 
-                <List disablePadding sx={{
-                    my: '1rem'
-                }}>
+                <List
+                    disablePadding
+                    sx={{
+                        my: '1rem'
+                    }}
+                >
                     <ListItem
                         sx={{
                             border: '1px solid',
@@ -419,14 +400,13 @@ export default function Issues() {
                             borderRadius: '8px 8px 0px 0px',
                             height: '45px'
                         }}
-                        secondaryAction={
-                            <Typography variant="body2">Events</Typography>
-                        }>
+                        secondaryAction={<Typography variant="body2">Events</Typography>}
+                    >
                         <Checkbox
                             sx={{
                                 display: {
                                     xs: 'none',
-                                    sm: 'flex',
+                                    sm: 'flex'
                                 },
                                 mr: '0.5rem'
                             }}
@@ -436,22 +416,25 @@ export default function Issues() {
                             onChange={handleToggleAll}
                             inputprops={{ 'aria-labelledby': 'checkbox-all' }}
                         />
-                        <Stack direction={"row"}>
+                        <Stack direction={'row'}>
                             <ButtonGroup
                                 disableElevation
                                 variant="outlined"
-                                size='small'
+                                size="small"
                                 color={checked.length > 0 ? 'primary' : 'info'}
                                 disabled={isLoading || checked.length == 0}
                             >
-                                <Button startIcon={<CheckOutlined />} onClick={
-                                    updateStatus('RESOLVED')
-                                }>Resolve</Button>
-                                <Button onClick={handleButtonDropdown}
+                                <Button startIcon={<CheckOutlined />} onClick={updateStatus('RESOLVED')}>
+                                    Resolve
+                                </Button>
+                                <Button
+                                    onClick={handleButtonDropdown}
                                     aria-controls={isOpen ? 'simple-menu' : undefined}
                                     aria-expanded={isOpen || undefined}
                                     aria-haspopup="menu"
-                                ><KeyboardArrowDownOutlined /></Button>
+                                >
+                                    <KeyboardArrowDownOutlined />
+                                </Button>
                             </ButtonGroup>
                             <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
                                 {actions.map((action, index) => (
@@ -468,30 +451,37 @@ export default function Issues() {
                             </Menu>
                         </Stack>
                     </ListItem>
-                    {
-                        issues.content ?
-                            issues.content.map((issue, index) => {
-                                return (isLoading ? <IssueCardSkeleton
-                                    index={index}
-                                    length={issues.numberOfElements}
-                                /> : <IssueCard
+                    {issues.content ? (
+                        issues.content.map((issue, index) =>
+                            isLoading ? (
+                                <IssueCardSkeleton key={index} index={index} length={issues.numberOfElements} id={issue.id} />
+                            ) : (
+                                <IssueCard
+                                    key={index}
                                     issue={issue}
                                     index={index}
                                     length={issues.numberOfElements}
                                     selected={checked.indexOf(issue.id) !== -1}
                                     onChange={handleToggle(issue.id)}
-                                />);
-                            }) : <NoIssuesCard />}
+                                />
+                            )
+                        )
+                    ) : (
+                        <NoIssuesCard />
+                    )}
                 </List>
-                {!isLoading && <TablePagination
-                    component={'div'}
-                    count={issues.totalElements}
-                    page={page}
-                    rowsPerPage={size}
-                    onPageChange={changePage}
-                    onRowsPerPageChange={changeSize}
-                    labelRowsPerPage={"Issues per page"}
-                />}
+                {!isLoading && (
+                    <TablePagination
+                        component={'div'}
+                        count={issues.totalElements}
+                        page={page}
+                        rowsPerPage={size}
+                        onPageChange={changePage}
+                        onRowsPerPageChange={changeSize}
+                        labelRowsPerPage={'Issues per page'}
+                    />
+                )}
             </Container>
-        </Box>);
+        </Box>
+    );
 }

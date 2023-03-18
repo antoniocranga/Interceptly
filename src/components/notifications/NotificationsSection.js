@@ -1,16 +1,15 @@
 import { NotificationsOutlined } from '@mui/icons-material';
-import { Avatar, Badge, Button, IconButton, List, ListItem, ListItemAvatar, ListItemText, Menu, Stack, Typography } from '@mui/material';
+import { Badge, Button, IconButton, List, Menu, Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAppContext } from '../../utils/AppContext';
-import * as timeago from 'timeago.js';
 import IssueCollaborationNotification from './types/IssueCollaborationNotification';
 import axios from 'axios';
 import Endpoints from '../../api/endpoints';
 import ProjectPermissionNotification from './types/ProjectPermissionNotification';
 
 export default function NotificationsSection() {
-    const { isAuthenticated,notifications, setNotifications } = useAppContext();
+    const { isAuthenticated, notifications, setNotifications } = useAppContext();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const onClick = (event) => {
@@ -29,10 +28,11 @@ export default function NotificationsSection() {
             axios
                 .patch(`${Endpoints.notifications}/seen/all`)
                 .then((data) => {
-                    for(var noti in notifications){
-                        noti.seen = true;
+                    var changedNoti = notifications
+                    for (var noti in changedNoti) {
+                        changedNoti[noti].seen = true;
                     }
-                    setNotifications(notifications);
+                    setNotifications(changedNoti);
                 })
                 .catch((err) => {});
         }
@@ -70,7 +70,9 @@ export default function NotificationsSection() {
                         <Typography variant="body1" fontWeight={500}>
                             Notifications
                         </Typography>
-                        <Button size="small" onClick={seenAllNotifications}>Seen all </Button>
+                        <Button size="small" onClick={seenAllNotifications}>
+                            Seen all{' '}
+                        </Button>
                     </Stack>
                     <List
                         sx={{
@@ -81,14 +83,14 @@ export default function NotificationsSection() {
                         disablePadding
                     >
                         {notifications &&
-                            notifications.map((notification) => {
+                            notifications.map((notification, index) => {
                                 switch (notification.type) {
                                     case 'ISSUE_COLLABORATION':
-                                        return <IssueCollaborationNotification notification={notification} />;
+                                        return <IssueCollaborationNotification key={index} notification={notification} />;
                                     case 'PROJECT_PERMISSION_ADD':
                                     case 'PROJECT_PERMISSION_UPDATE':
-                                        return <ProjectPermissionNotification notification={notification}/>        
-                                    }
+                                        return <ProjectPermissionNotification key={index} notification={notification} />;
+                                }
                             })}
                     </List>
                 </Stack>

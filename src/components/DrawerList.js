@@ -47,7 +47,7 @@ export default function DrawerList({ isDrawerExpanded }) {
             name: 'Team',
             icon: GroupsOutlined,
             path: `/dashboard/${projectId}/team`
-        },
+        }
     ];
     const createHandleMenuClick = (menuItem) => {
         return () => {

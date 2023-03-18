@@ -1,6 +1,5 @@
 // import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
 
-
 // const { enqueueSnackbar } = useSnackbar();
 
 // const handleClick = () => {

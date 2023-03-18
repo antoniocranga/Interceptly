@@ -1,7 +1,6 @@
-import { Card, CardContent, CardMedia, Divider, Tooltip, Typography } from '@mui/material';
+import { Card, CardContent, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import theme from '../../theme';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/system';
 import * as timeago from 'timeago.js';
@@ -29,16 +28,21 @@ export default function ProjectCard({ props }) {
             onClick={handleOnClick}
         >
             <CardContent>
-                <Box height={150} sx={{
-                    backgroundColor: color ? color : theme.palette.primary.main,
-                    borderRadius: "6px"
-                }} />
+                <Box
+                    height={150}
+                    sx={{
+                        backgroundColor: color ? color : theme.palette.primary.main,
+                        borderRadius: '6px'
+                    }}
+                />
                 <Typography variant="h6">{title}</Typography>
-                <Typography variant="body2">{description.substr(0, 50) ?? "\u00A0"}</Typography>
-                <Box sx={{
-                    display: "flex",
-                    alignItems: "center",
-                }}>
+                <Typography variant="body2">{description.substr(0, 50) ?? '\u00A0'}</Typography>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}
+                >
                     <Typography
                         variant="caption"
                         sx={{
@@ -47,19 +51,24 @@ export default function ProjectCard({ props }) {
                     >
                         {id}
                     </Typography>
-                    <Typography sx={{
-                        color: grey[400],
-                        mx: '0.2rem'
-                    }}>•</Typography>
-                    <Tooltip title={new Date(createdAt + 'Z').toLocaleString()}><Typography
-                        variant="caption"
+                    <Typography
                         sx={{
-                            color: grey[400]
+                            color: grey[400],
+                            mx: '0.2rem'
                         }}
                     >
-                        created {formatedDate()}
-                    </Typography></Tooltip>
-
+                        •
+                    </Typography>
+                    <Tooltip title={new Date(createdAt + 'Z').toLocaleString()}>
+                        <Typography
+                            variant="caption"
+                            sx={{
+                                color: grey[400]
+                            }}
+                        >
+                            created {formatedDate()}
+                        </Typography>
+                    </Tooltip>
                 </Box>
             </CardContent>
         </Card>

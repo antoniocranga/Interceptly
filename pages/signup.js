@@ -72,9 +72,9 @@ export default function Signup() {
                                 }}
                             >
                                 <Typography variant="body2" sx={{ mt: '1rem' }}>
-                                    First name
+                                    First name*
                                 </Typography>
-                                <TextField disabled={isLoading} id="first_name" size="small" type="text" name="first_name"></TextField>
+                                <TextField disabled={isLoading} required id="first_name" size="small" type="text" name="first_name"></TextField>
                             </Stack>
                             <Stack
                                 sx={{
@@ -82,9 +82,9 @@ export default function Signup() {
                                 }}
                             >
                                 <Typography variant="body2" sx={{ mt: '1rem' }}>
-                                    Last name
+                                    Last name*
                                 </Typography>
-                                <TextField id="last_name" size="small" type="text" name="last_name"></TextField>
+                                <TextField id="last_name" size="small" required type="text" name="last_name"></TextField>
                             </Stack>
                         </Stack>
                         <Typography variant="body2" sx={{ mt: '1rem' }}>

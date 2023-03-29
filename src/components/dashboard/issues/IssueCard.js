@@ -144,7 +144,7 @@ export default function IssueCard(props) {
                                 fontWeight: '500'
                             }}
                         >
-                            {timeago.format(new Date(issue.lastSeen))}
+                            {timeago.format(new Date(issue.lastSeen + 'Z'))}
                         </Typography>
                     </Tooltip>
                 </Stack>

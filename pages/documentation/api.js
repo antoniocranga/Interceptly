@@ -70,7 +70,7 @@ export default function Endpoints() {
                 'Post an event by adding multiple fields inside the configuration in order to use Interceptly at full power. If an issue with this specific configuration of type and message does not exist, a new issue will be created and the incoming events will be assigned to it.',
             content: {
                 method: 'POST',
-                endpoint: process.env.NEXT_PUBLIC_API_HOST_NAME + '/events',
+                endpoint: process.env.NEXT_PUBLIC_API_HOST_NAME + '/events/',
                 success: [
                     {
                         statusCode: 201,

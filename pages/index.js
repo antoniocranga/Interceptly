@@ -46,7 +46,7 @@ export default function Index({ stats }) {
             lang: 'python',
             label: 'Python',
             code: ` 
-    try :
+    try:
         # do some work 
     except Exception as e:
         # call Interceptly   
@@ -275,7 +275,7 @@ export default function Index({ stats }) {
             </Grid>
             <Box
                 sx={{
-                    width: '100vw',
+                    width: '100%',
                     height: 'auto',
                     position: 'relative'
                 }}
@@ -295,7 +295,6 @@ export default function Index({ stats }) {
                     width="180"
                     style={{
                         position: 'absolute',
-                        zIndex: 10000,
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)'

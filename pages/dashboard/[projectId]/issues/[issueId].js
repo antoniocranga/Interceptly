@@ -41,6 +41,7 @@ import CommentsSection from '../../../../src/components/dashboard/issues/Comment
 import EventCard from '../../../../src/components/dashboard/issues/events/EventCard';
 import theme from '../../../../src/theme';
 import { useAppContext } from '../../../../src/utils/AppContext';
+import Head from 'next/head';
 
 export default function Issue() {
     const router = useRouter();
@@ -237,6 +238,9 @@ export default function Issue() {
                 py: '1rem'
             }}
         >
+            <Head>
+                {!isLoading && issue ? <title>{issue.title}</title> : <title>Interceptly | </title>}
+            </Head>
             <Container>
                 {!isLoading && issue && (
                     <Grid container spacing={2}>

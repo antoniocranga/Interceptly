@@ -11,6 +11,7 @@ import { grey } from '@mui/material/colors';
 import SocialAuthButton from '../src/components/buttons/SocialAuthButton';
 import { useAppContext } from '../src/utils/AppContext';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 export default function Login() {
     const router = useRouter();
@@ -32,6 +33,15 @@ export default function Login() {
     };
     return (
         <MeshGradient>
+            <Head>
+                <title>Interceptly | Login</title>
+                <meta
+                    name="description"
+                    content={
+                        'Interceptly.xyz is a cloud based error tracker solution that helps developers to monitor and debug projects within two clicks.'
+                    }
+                />
+            </Head>
             <Box display="flex" justifyContent="center" component="form" onSubmit={onSubmit}>
                 <AuthCard>
                     <Stack>

@@ -70,7 +70,7 @@ export default function StyledMenu({ pages }) {
                             key={page.name}
                             onClick={createHandleMenuClick(page.path)}
                             sx={{
-                                mb: index < pages.length - 1 ? '5px' : 0
+                                mb: index < pages.length - 1 ? 1 : 0
                             }}
                             selected={page.name.toLowerCase() == activeScreen}
                         >

@@ -121,7 +121,7 @@ export default function WebsiteNavBar({ children }) {
                                 >
                                     <Avatar alt="U" />
                                 </IconButton>
-                                <Menu open={isOpen} onClose={close} anchorEl={anchorEl}>
+                                <Menu open={isOpen} onClose={close} anchorEl={anchorEl} aria-label='Dashboard'>
                                     {settings.map((setting, index) => {
                                         if (setting.name == '@userEmail') {
                                             if (isAuthenticated) {

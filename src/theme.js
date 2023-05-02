@@ -1,4 +1,4 @@
-import { Inter } from '@next/font/google';
+import {Inter} from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
 import { grey, red } from '@mui/material/colors';
 import Link from 'next/link';
@@ -74,7 +74,6 @@ const theme = createTheme({
                     marginTop: '2px',
                     padding: '2px 8px 2px 8px',
                     minWidth: 160,
-                    color: 'white',
                     backgroundImage: 'none',
                     backgroundColor: '#fff',
                     border: '1px solid',

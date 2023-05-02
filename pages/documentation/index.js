@@ -4,6 +4,7 @@ import { Card, CardContent, Grid, Typography } from '@mui/material';
 import theme from '../../src/theme';
 import { grey } from '@mui/material/colors';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 export default function Docs() {
     const items = [
@@ -23,7 +24,7 @@ export default function Docs() {
         router.push(path);
     };
     return (
-        <Box>
+        <Box>      
             <Typography variant="h4">Quick reference</Typography>
             <Grid container spacing={2} sx={{ mt: '1rem' }}>
                 {items.map((item, index) => {
@@ -36,7 +37,7 @@ export default function Docs() {
                                     ':hover': {
                                         boxShadow: theme.custom.customBoxShadow,
                                         borderColor: theme.palette.primary.main,
-                                        cursor:'pointer'
+                                        cursor: 'pointer'
                                     },
                                     border: '1px solid',
                                     borderColor: grey[300]

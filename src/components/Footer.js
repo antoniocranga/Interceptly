@@ -53,7 +53,7 @@ export default function StickyFooter() {
                                 <Link href="/login">Login</Link>
                             </Grid>
                             <Grid item xs={12} sm={'auto'} display="flex" justifyContent={'center'}>
-                                <Link href="/signup">Signup</Link>
+                                <Link href="/signup">Sign up</Link>
                             </Grid>
                         </Grid>
                     </Grid>

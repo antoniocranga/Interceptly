@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import Endpoints from '../../../src/api/endpoints';
 import OverviewCard from '../../../src/components/dashboard/overview/OverviewCard';
 import ProjectCardSkeleton from '../../../src/components/dashboard/skeletons/ProjectCardSkeleton';
+import Head from 'next/head';
 export default function Statistics() {
     const [data, setData] = useState({
         issues: [],
@@ -502,6 +503,15 @@ export default function Statistics() {
                 py: '1rem'
             }}
         >
+            <Head>
+                <title>Statistics | Interceptly</title>
+                <meta
+                    name="description"
+                    content={
+                        'Interceptly.xyz is a cloud based error tracker solution that helps developers to monitor and debug projects within two clicks.'
+                    }
+                />
+            </Head>
             <Container>
                 <Typography
                     variant="h6"

@@ -11,6 +11,7 @@ import TeamMemberDialog from '../../../src/components/dashboard/dialogs/TeamMemb
 import TeamUserCardSkeleton from '../../../src/components/dashboard/skeletons/TeamUserCardSkeleton';
 import NoTeamCard from '../../../src/components/dashboard/team/NoTeamCard';
 import TeamUserCard from '../../../src/components/dashboard/team/TeamUserCard';
+import Head from 'next/head';
 
 export default function Team() {
     const [team, setTeam] = useState([{}, {}, {}]);
@@ -74,6 +75,15 @@ export default function Team() {
                 py: '1rem'
             }}
         >
+            <Head>
+                <title></title>
+                <meta
+                    name="description"
+                    content={
+                        'Interceptly.xyz is a cloud based error tracker solution that helps developers to monitor and debug projects within two clicks.'
+                    }
+                />
+            </Head>
             <Container>
                 <Typography
                     variant="h6"

@@ -27,6 +27,7 @@ import Code from '../../src/components/documentation/Code';
 import EndpointBox from '../../src/components/documentation/endpoint/EndpointBox';
 import theme from '../../src/theme';
 import SyntaxHighlight from '../../src/utils/SyntaxHighlight';
+import Head from 'next/head';
 
 export default function Endpoints() {
     const options = ['cURL', 'Java'];
@@ -70,7 +71,7 @@ export default function Endpoints() {
                 'Post an event by adding multiple fields inside the configuration in order to use Interceptly at full power. If an issue with this specific configuration of type and message does not exist, a new issue will be created and the incoming events will be assigned to it.',
             content: {
                 method: 'POST',
-                endpoint: process.env.NEXT_PUBLIC_API_HOST_NAME + '/events',
+                endpoint: process.env.NEXT_PUBLIC_API_HOST_NAME + '/events/',
                 success: [
                     {
                         statusCode: 201,
@@ -98,7 +99,7 @@ export default function Endpoints() {
                 headers: [
                     {
                         id: 'User-Agent',
-                        description: 'Use the User-Agent header in order to specify the environment where the request was made from.'
+                        description: 'Use the User-Agent header to specify the environment where the request was made from.'
                     }
                 ],
                 body: [
@@ -154,6 +155,15 @@ export default function Endpoints() {
     ];
     return (
         <Stack spacing={4}>
+            <Head>
+                <title></title>
+                <meta
+                    name="description"
+                    content={
+                        'Interceptly.xyz is a cloud based error tracker solution that helps developers to monitor and debug projects within two clicks.'
+                    }
+                />
+            </Head>
             <Breadcrumbs aria-label="breadcrumb">
                 <Link href="/documentation" color="inherit" underline="hover">
                     Documentation
@@ -177,7 +187,7 @@ export default function Endpoints() {
                 </Link>{' '}
                 and{' '}
                 <Link href="https://www.mysql.com/" fontWeight={600}>
-                    My SQL
+                    MySQL
                 </Link>
                 .
             </Typography>
@@ -374,7 +384,14 @@ export default function Endpoints() {
                                             {endpoint.content.method}
                                         </Typography>
                                     </Box>
-                                    <Typography>{endpoint.content.endpoint}</Typography>
+                                    <Typography sx={{
+                                        typography: {
+                                            xs: theme.typography.body1,
+                                            sm: theme.typography.body1,
+                                            md: theme.typography.body2,
+                                            xl: theme.typography.body1
+                                        }
+                                    }}>{endpoint.content.endpoint}</Typography>
                                 </Box>
                                 <Typography variant="h6">Response</Typography>
                                 {endpoint.content.success.map((result, index) => (

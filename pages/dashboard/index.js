@@ -7,6 +7,7 @@ import ProjectCard from '../../src/components/dashboard/ProjectCard';
 import { useSnackbar } from 'notistack';
 import ProjectCardSkeleton from '../../src/components/dashboard/skeletons/ProjectCardSkeleton';
 import { useAppContext } from '../../src/utils/AppContext';
+import Head from 'next/head';
 const skeletons = [
     {
         project: {
@@ -52,6 +53,15 @@ export default function Dashboard() {
                 alignItems: 'stretch'
             }}
         >
+            <Head>
+                <title></title>
+                <meta
+                    name="description"
+                    content={
+                        'Interceptly.xyz is a cloud based error tracker solution that helps developers to monitor and debug projects within two clicks.'
+                    }
+                />
+            </Head>
             {projects.map((project) => (
                 <Grid key={project.project.id} item xs={12} sm={6} md={4} lg={3}>
                     {isLoading ? <ProjectCardSkeleton /> : <ProjectCard props={project.project} />}

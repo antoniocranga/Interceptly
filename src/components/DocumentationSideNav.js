@@ -56,6 +56,7 @@ export default function DocumentationSideNav({ children }) {
                                     sx={{
                                         px: 2.5,
                                         mx: 1,
+                                        mb: 1,
                                         borderRadius: '8px'
                                     }}
                                     selected={item.path == router.asPath.split('#')[0]}

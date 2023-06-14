@@ -10,11 +10,16 @@ export default class MyDocument extends Document {
             <Html lang="en" className={inter.className}>
                 <Head>
                     {/* PWA primary color */}
+                    <meta
+                        name="description"
+                        content={
+                            'Interceptly.xyz is a cloud based error tracker solution that helps developers to monitor and debug projects within two clicks.'
+                        }
+                    />
+                    <meta name="author" content={'Crangă Antonio-Cristian <antocranga@gmail.com>'}></meta>
                     <meta name="theme-color" content={theme.palette.background.default} />
                     <link rel="shortcut icon" href="/favicon.ico" />
                     <meta name="emotion-insertion-point" content="" />
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.js"></script>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
                     {this.props.emotionStyleTags}
                 </Head>
                 <body>

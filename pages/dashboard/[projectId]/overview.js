@@ -26,6 +26,7 @@ import ProjectCardSkeleton from '../../../src/components/dashboard/skeletons/Pro
 import Circle from 'react-color/lib/components/circle/Circle';
 import ResetApiKeyDialog from '../../../src/components/dashboard/dialogs/ResetApiKeyDialog';
 import DeleteProjectDialog from '../../../src/components/dashboard/dialogs/DeleteProjectDialog';
+import Head from 'next/head';
 
 export default function Project() {
     const skeletons = [
@@ -173,6 +174,15 @@ export default function Project() {
                 py: '1rem'
             }}
         >
+            <Head>
+                <title>Overview | Interceptly</title>
+                <meta
+                    name="description"
+                    content={
+                        'Interceptly.xyz is a cloud based error tracker solution that helps developers to monitor and debug projects within two clicks.'
+                    }
+                />
+            </Head>
             <Container>
                 <Typography
                     variant="h6"

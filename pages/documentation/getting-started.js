@@ -6,17 +6,28 @@ import AnchorLink from '../../src/components/documentation/AnchorLink';
 import Code from '../../src/components/documentation/Code';
 import theme from '../../src/theme';
 import SyntaxHighlight from '../../src/utils/SyntaxHighlight';
+import Head from 'next/head';
 
 export default function GettingStarted() {
     const code = `
   try{
     //do some work
-  }catch(e){
+  }
+  catch(Exception e){
     //call Interceptly
   }
   `;
     return (
         <Stack spacing={4}>
+            <Head>
+                <title></title>
+                <meta
+                    name="description"
+                    content={
+                        'Interceptly.xyz is a cloud based error tracker solution that helps developers to monitor and debug projects within two clicks.'
+                    }
+                />
+            </Head>
             <Breadcrumbs aria-label="breadcrumb">
                 <Link href="/documentation" color="inherit" underline="hover">
                     Documentation

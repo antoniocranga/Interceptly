@@ -27,6 +27,7 @@ import IssueCard from '../../../../src/components/dashboard/issues/IssueCard';
 import IssueCardSkeleton from '../../../../src/components/dashboard/skeletons/IssueCardSkeleton';
 import Endpoints from '../../../../src/api/endpoints';
 import NoIssuesCard from '../../../../src/components/dashboard/issues/NoIssuesCard';
+import Head from 'next/head';
 
 export default function Issues() {
     const router = useRouter();
@@ -321,6 +322,15 @@ export default function Issues() {
                 py: '1rem'
             }}
         >
+            <Head>
+                <title>Issues | Interceptly</title>
+                <meta
+                    name="description"
+                    content={
+                        'Interceptly.xyz is a cloud based error tracker solution that helps developers to monitor and debug projects within two clicks.'
+                    }
+                />
+            </Head>
             <Container>
                 <Typography
                     variant="h6"

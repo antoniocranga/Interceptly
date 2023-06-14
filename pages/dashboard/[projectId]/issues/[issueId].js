@@ -41,7 +41,6 @@ import CommentsSection from '../../../../src/components/dashboard/issues/Comment
 import EventCard from '../../../../src/components/dashboard/issues/events/EventCard';
 import theme from '../../../../src/theme';
 import { useAppContext } from '../../../../src/utils/AppContext';
-import Head from 'next/head';
 
 export default function Issue() {
     const router = useRouter();
@@ -160,6 +159,7 @@ export default function Issue() {
                 setCollaborators(data.collaborators);
                 setComments(data.comments);
                 setIsLoading(false);
+                
             })
             .catch((err) => {
                 // router.reload();
@@ -211,7 +211,9 @@ export default function Issue() {
             .then((data) => {
                 setCollaborators(collaborators.filter((collab) => collab.userId != user.id));
             })
-            .catch((err) => {});
+            .catch((err) => {
+                console.log(err)
+            });
     };
     const exportIssue = () => {
         axios
@@ -238,9 +240,6 @@ export default function Issue() {
                 py: '1rem'
             }}
         >
-            <Head>
-                {!isLoading && issue ? <title>{issue.title}</title> : <title>Interceptly | </title>}
-            </Head>
             <Container>
                 {!isLoading && issue && (
                     <Grid container spacing={2}>
@@ -350,11 +349,10 @@ export default function Issue() {
                                                     mt: '1rem'
                                                 }}
                                             >
-                                                {!(
-                                                    permissions.find((collab) => (collab.userId = appState.user.id)).permission ==
-                                                        'OWNER' ||
-                                                    permissions.find((collab) => (collab.userId = appState.user.id)).permission == 'ADMIN'
-                                                ) && (
+                                                {!(permissions.find((collab) => (collab.userId = appState.user.id))
+                                                                .permission == 'OWNER' ||
+                                                            permissions.find((collab) => (collab.userId = appState.user.id))
+                                                                .permission == 'ADMIN') && (
                                                     <Typography
                                                         variant="caption"
                                                         sx={{
@@ -378,12 +376,10 @@ export default function Issue() {
                                                     >
                                                         <ListItemButton
                                                             disabled={
-                                                                !(
-                                                                    permissions.find((collab) => (collab.userId = appState.user.id))
-                                                                        .permission == 'OWNER' ||
-                                                                    permissions.find((collab) => (collab.userId = appState.user.id))
-                                                                        .permission == 'ADMIN'
-                                                                )
+                                                                !(permissions.find((collab) => (collab.userId = appState.user.id))
+                                                                .permission == 'OWNER' ||
+                                                            permissions.find((collab) => (collab.userId = appState.user.id))
+                                                                .permission == 'ADMIN')
                                                             }
                                                             selected={collaborators.find((collab) => collab.userId == user.id)}
                                                             sx={{

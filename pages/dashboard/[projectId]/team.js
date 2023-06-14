@@ -35,7 +35,7 @@ export default function Team() {
         setSelectedUser(user);
         setOpen(true);
     };
-   
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -146,15 +146,14 @@ export default function Team() {
                     {filteredTeam.length > 0 ? (
                         filteredTeam.map((user, index) => {
                             return isLoading ? (
-                                <TeamUserCardSkeleton index={index} length={filteredTeam.length} />
+                                <TeamUserCardSkeleton key={index} index={index} length={filteredTeam.length} />
                             ) : (
-                                <TeamUserCard user={user} index={index} length={filteredTeam.length} open={handleOnClick(user)} />
+                                <TeamUserCard key={index} user={user} index={index} length={filteredTeam.length} open={handleOnClick(user)} />
                             );
                         })
                     ) : (
                         <NoTeamCard />
                     )}
-                    
                 </List>
                 <TeamMemberDialog onClose={handleClose} open={open} user={selectedUser}></TeamMemberDialog>
             </Container>

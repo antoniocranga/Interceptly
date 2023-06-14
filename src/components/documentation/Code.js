@@ -2,7 +2,7 @@ import { Link } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import theme from '../../theme';
 
-export default function Code({href, children}) {
+export default function Code({ href, children }) {
     return (
         <Link
             sx={{
@@ -16,10 +16,10 @@ export default function Code({href, children}) {
                 fontSize: '15px',
                 fontFamily: theme.typography.fontFamily
             }}
-        component={href ? undefined : "code"}
-        href={href ?? '/'}
-        color={"text.primary"}
-        underline="none"
+            component={href ? undefined : 'code'}
+            href={href ?? '/'}
+            color={'text.primary'}
+            underline="none"
         >
             {children}
         </Link>

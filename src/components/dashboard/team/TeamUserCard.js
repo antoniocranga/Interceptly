@@ -1,10 +1,8 @@
 import { MoreHorizOutlined } from '@mui/icons-material';
-import { Box, Checkbox, Chip, Divider, Grid, IconButton, ListItem, ListItemText, Tooltip, Typography, useMediaQuery } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
+import { Grid, IconButton, ListItem, Tooltip, Typography, useMediaQuery } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { alpha, Stack } from '@mui/system';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import theme from '../../../theme';
 import * as timeago from 'timeago.js';
 export default function TeamUserCard(props) {
@@ -17,10 +15,10 @@ export default function TeamUserCard(props) {
         return timeago.format(new Date(date + 'Z'));
     };
     const computeColor = (permission) => {
-        switch(permission){
+        switch (permission) {
             case 'OWNER':
                 return theme.palette.primary.main;
-            case 'ADMIN': 
+            case 'ADMIN':
                 return theme.palette.secondary.main;
             case 'DEVELOPER':
                 return theme.palette.success.main;
@@ -89,7 +87,7 @@ export default function TeamUserCard(props) {
                         </Grid>
                     </Stack>
                 </Grid>
-                <Grid item xs={8} display="flex" justifyContent={"center"}>
+                <Grid item xs={8} display="flex" justifyContent={'center'}>
                     <LabelItem color={computeColor(user.permission)}>{user.permission}</LabelItem>
                 </Grid>
             </Grid>
@@ -97,14 +95,19 @@ export default function TeamUserCard(props) {
     );
 }
 function LabelItem({ color, children }) {
-    return <Typography variant={"body2"} sx={{
-        border: '1px solid',
-        borderColor: color,
-        backgroundColor: alpha(color, 0.1),
-        px: '1rem',
-        borderRadius: '100px',
-        fontWeight: '500'
-    }}>
-        {children}
-    </Typography>
+    return (
+        <Typography
+            variant={'body2'}
+            sx={{
+                border: '1px solid',
+                borderColor: color,
+                backgroundColor: alpha(color, 0.1),
+                px: '1rem',
+                borderRadius: '100px',
+                fontWeight: '500'
+            }}
+        >
+            {children}
+        </Typography>
+    );
 }

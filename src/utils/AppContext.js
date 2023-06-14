@@ -27,7 +27,7 @@ export function AppWrapper({ children }) {
         axios
             .get(`${Endpoints.notifications}`)
             .then((data) => {
-                setNotifications(data.data)
+                setNotifications(data.data);
             })
             .catch((err) => {});
     };
@@ -144,19 +144,19 @@ export function AppWrapper({ children }) {
         var socket = null;
         var privateStompClient = null;
         const headers = {
-            "Authorization": "Bearer " + localStorage.getItem('jwt')
-        }
-        socket = new SockJS(Endpoints.webSocketsUrl)
+            Authorization: 'Bearer ' + localStorage.getItem('jwt')
+        };
+        socket = new SockJS(Endpoints.webSocketsUrl);
         privateStompClient = Stomp.over(socket);
-        privateStompClient.connect(headers, function(frame){
+        privateStompClient.debug = null
+        privateStompClient.connect(headers, function (frame) {
             privateStompClient.subscribe('/user/specific', function (result) {
-                setNotifications((prev) => [JSON.parse(result.body),...prev]);
+                setNotifications((prev) => [JSON.parse(result.body), ...prev]);
             });
         });
     };
 
     React.useEffect(() => {
-        console.log(Endpoints.baseUrl);
         axios.defaults.baseURL = Endpoints.baseUrl;
         if (localStorage.getItem('jwt')) {
             axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`;
@@ -168,7 +168,7 @@ export function AppWrapper({ children }) {
             (error) => {
                 const { config, response } = error;
                 if (response) {
-                    if(router.pathname.includes("/dashboard")){
+                    if (router.pathname.includes('/dashboard')) {
                         if (response?.status === 401) {
                             router.push('/');
                         } else if (response?.status === 403) {

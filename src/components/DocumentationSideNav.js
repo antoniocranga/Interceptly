@@ -58,7 +58,7 @@ export default function DocumentationSideNav({ children }) {
                                         mx: 1,
                                         borderRadius: '8px'
                                     }}
-                                    selected={item.path == router.asPath.split("#")[0]}
+                                    selected={item.path == router.asPath.split('#')[0]}
                                     onClick={handleRoute(item.path)}
                                 >
                                     <ListItemText
@@ -72,10 +72,9 @@ export default function DocumentationSideNav({ children }) {
                         ))}
                     </List>
                     {/* <Divider /> */}
-                
                 </Box>
             </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, py:'1rem' }}>
+            <Box component="main" sx={{ flexGrow: 1, py: '1rem' }}>
                 <Container>
                     {children}
                     <StickyFooter />

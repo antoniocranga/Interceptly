@@ -11,10 +11,8 @@ export default function ProjectPermissionNotification({ notification }) {
             <Box>
                 {splitted.map((message, index) => {
                     return (
-                        <Typography 
-                        key={index}
-                        variant="body2" fontWeight={index % 2 ? 400 : 500} display="inline">
-                            {message + " "}
+                        <Typography key={index} variant="body2" fontWeight={index % 2 ? 400 : 500} display="inline">
+                            {message + ' '}
                         </Typography>
                     );
                 })}

@@ -7,15 +7,15 @@ export default function AppLoader({ children }) {
     const router = useRouter();
     const { isAuthenticated, isLoading, appState, logout } = useAppContext();
     useEffect(() => {
-        if (!isLoading && !isAuthenticated && (router.pathname.includes("/dashboard") || router.pathname.includes("/account"))) {
-            router.push("/login");
+        if (!isLoading && !isAuthenticated && (router.pathname.includes('/dashboard') || router.pathname.includes('/account'))) {
+            router.push('/login');
         }
     }, [isLoading, isAuthenticated, router.pathname]);
-    if (!router.pathname.includes("/dashboard") && !router.pathname.includes("/account")) {
-        return children
+    if (!router.pathname.includes('/dashboard') && !router.pathname.includes('/account')) {
+        return children;
     }
-    if (isLoading || (!isAuthenticated && router.pathname.includes("/dashboard"))) {
-        return <Loading />
+    if (isLoading || (!isAuthenticated && router.pathname.includes('/dashboard'))) {
+        return <Loading />;
     }
-    return children
+    return children;
 }

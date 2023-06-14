@@ -56,7 +56,7 @@ const theme = createTheme({
             main: grey[600],
             light: grey[600],
             dark: '#313131'
-        },
+        }
     },
     typography: {
         fontFamily: inter.style.fontFamily
@@ -118,8 +118,8 @@ const theme = createTheme({
         MuiLink: {
             defaultProps: {
                 component: LinkBehaviour,
-                underline: "hover",
-                color: "text.primary"
+                underline: 'hover',
+                color: 'text.primary'
             }
         },
         MuiButtonBase: {

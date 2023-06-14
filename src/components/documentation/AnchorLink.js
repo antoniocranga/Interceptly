@@ -1,6 +1,6 @@
-import { AnchorOutlined } from "@mui/icons-material";
-import { Link, Typography } from "@mui/material";
-import { Stack } from "@mui/system";
+import { AnchorOutlined } from '@mui/icons-material';
+import { Link, Typography } from '@mui/material';
+import { Stack } from '@mui/system';
 
 export default function AnchorLink({ href, label }) {
     return (

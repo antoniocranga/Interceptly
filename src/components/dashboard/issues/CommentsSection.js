@@ -1,25 +1,21 @@
 import {
     Avatar,
     Button,
-    createMuiTheme,
     createTheme,
     Divider,
     Grid,
-    InputAdornment,
     List,
     ListItem,
     ListItemAvatar,
     ListItemText,
     Skeleton,
     Stack,
-    TextField,
     Typography
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import theme from '../../../theme';
-import { convertToRaw } from 'draft-js';
 import dynamic from 'next/dynamic';
 import { stateToHTML } from 'draft-js-export-html';
 import { grey } from '@mui/material/colors';
@@ -92,11 +88,7 @@ export default function CommentsSection(props) {
             .catch((err) => {});
     };
     return (
-        <Stack
-            spacing={2}
-            sx={{
-            }}
-        >
+        <Stack spacing={2} sx={{}}>
             <ContentTitle>Comments</ContentTitle>
             <TextEditor
                 theme={defaultTheme}
@@ -136,7 +128,7 @@ export default function CommentsSection(props) {
                 disablePadding
                 sx={{
                     maxHeight: '690.5px',
-                    overflowY: 'auto',
+                    overflowY: 'auto'
                 }}
             >
                 {comments &&

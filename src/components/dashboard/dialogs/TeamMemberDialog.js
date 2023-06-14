@@ -1,20 +1,5 @@
-import { InfoOutlined } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
-import {
-    Button,
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    FormControl,
-    Grid,
-    InputLabel,
-    MenuItem,
-    Select,
-    TextField,
-    Tooltip,
-    Typography
-} from '@mui/material';
-import { Stack } from '@mui/system';
+import { Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -43,7 +28,7 @@ export default function TeamMemberDialog(props) {
     ];
     const onChange = (event) => {
         setController(event.target.value);
-    }
+    };
     const changePermission = (event) => {
         setPermission(event.target.value);
     };

@@ -1,11 +1,8 @@
-import { CheckOutlined } from '@mui/icons-material';
-import { Button, Link, ListItem, ListItemAvatar, ListItemButton } from '@mui/material';
+import { ListItemButton } from '@mui/material';
 import { blue } from '@mui/material/colors';
-import { Stack } from '@mui/system';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import Endpoints from '../../../api/endpoints';
-import theme from '../../../theme';
 
 export default function NotificationItemBase({ notification, children }) {
     const router = useRouter();

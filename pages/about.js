@@ -8,13 +8,13 @@ import { Link } from '@mui/material';
 export default function About() {
     return (
         <Container maxWidth="sm">
-            <Box sx={{ my: 4 }}>
-                <Typography variant="h4" component="h1" gutterBottom>
-                    Next.js example
+            <Box sx={{ my: 4 }} display='flex' flexDirection={'column'} alignItems='center'>
+                <Typography variant="h6" align='center'> 
+                    Coming soon...
                 </Typography>
-                <Button variant="contained" component={Link} noLinkStyle href="/">
-                    Go to the main page
-                </Button>
+                <Button variant="outlined" href="/" sx={{
+                    mt: '2rem'
+                }}>Back to home</Button>
             </Box>
         </Container>
     );

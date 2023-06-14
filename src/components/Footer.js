@@ -12,7 +12,7 @@ function Copyright() {
         <Typography variant="body2" color="text.secondary">
             {'Copyright © '}
             <Link color="inherit" href="https://interceptly.xyz/">
-                Interceptly.io
+                Interceptly.xyz
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -62,4 +62,3 @@ export default function StickyFooter() {
         </Box>
     );
 }
-
